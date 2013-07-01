@@ -99,9 +99,6 @@ void TakasuPoppo::swapTilesCheck(TPObjectExtension *exObj, int swpGid) {
                 TakasuPoppo::isBlockMatched(objectExtension->getGid(), objectExtension->getID())) {
                 TakasuPoppo::swapColorID(exObj, objectExtension);
                 TakasuPoppo::swapTilesMoving(exObj, objectExtension);
-                this->runAction(CCSequence::create(CCCallFunc::create(this, callfunc_selector(TakasuPoppo::cleanBlocks)),
-                                                   CCCallFunc::create(this, callfunc_selector(TakasuPoppo::afterClean)),
-                                                   CCCallFunc::create(this, callfunc_selector(TakasuPoppo::checkEmpty)), NULL));
             }
             else {
                 TakasuPoppo::swapColorID(exObj, objectExtension);
@@ -115,7 +112,10 @@ void TakasuPoppo::swapTilesMoving(TPObjectExtension *exObj, TPObjectExtension *s
     CCSprite *sprite = (CCSprite*)exObj->getSprite();
     CCSprite *swpSprite = (CCSprite*)swpObj->getSprite();
     sprite->runAction(CCMoveTo::create(0.1, swpObj->getPosition()));
-    swpSprite->runAction(CCMoveTo::create(0.1, exObj->getPosition()));
+    swpSprite->runAction(CCSequence::create(CCMoveTo::create(0.1, exObj->getPosition()),
+                                            CCCallFunc::create(this, callfunc_selector(TakasuPoppo::cleanBlocks)),
+                                            CCCallFunc::create(this, callfunc_selector(TakasuPoppo::afterClean)),
+                                            CCCallFunc::create(this, callfunc_selector(TakasuPoppo::checkEmpty)), NULL));
     
     TakasuPoppo::swapColorID(exObj, swpObj);
     if (gridOn)TakasuPoppo::refresh();
