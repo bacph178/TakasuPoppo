@@ -89,7 +89,7 @@ void TakasuPoppo::swapColorID(TPObjectExtension *exObj, TPObjectExtension *swpOb
 
 void TakasuPoppo::checkEmpty() {
     CCObject *object;
-    CCARRAY_FOREACH(colorArray, object) {
+    CCARRAY_FOREACH_REVERSE(colorArray, object) {
         TPObjectExtension *exObj = dynamic_cast<TPObjectExtension*>(object);
         if (exObj->getID() == 7) {
             generateRandomBlock(exObj);

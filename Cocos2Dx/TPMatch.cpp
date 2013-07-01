@@ -235,7 +235,14 @@ bool TakasuPoppo::isTopTriMatch(int gid, int typeID) {
     TPObjectExtension *topExObj = dynamic_cast<TPObjectExtension*>(topObject);
     CCObject *topTopObj = colorArray->objectAtIndex(gidToIndex - 14);
     TPObjectExtension *topTopEx = dynamic_cast<TPObjectExtension*>(topTopObj);
-    if (topExObj->getID() == typeID && topTopEx->getID() == typeID) return true;
+    if (topExObj->getID() == typeID && topTopEx->getID() == typeID) {
+        CCObject *object = colorArray->objectAtIndex(gidToIndex);
+        TPObjectExtension *mainObject = dynamic_cast<TPObjectExtension*>(object);
+        TPBlockSet *blockSet = new TPBlockSet(topTopEx, topExObj, mainObject, NULL, NULL,
+                                              "TrioTop", mainObject->getCoordination().x, mainObject->getCoordination().y);
+        toDestroyArray->addObject(blockSet);
+        return true;
+    }
     return false;
 }
 
@@ -245,7 +252,14 @@ bool TakasuPoppo::isBottomTriMatch(int gid, int typeID) {
     TPObjectExtension *bottomExObj = dynamic_cast<TPObjectExtension*>(bottomObject);
     CCObject *bottomBottomObject = colorArray->objectAtIndex(gidToIndex + 14);
     TPObjectExtension *bottomBottomEx = dynamic_cast<TPObjectExtension*>(bottomBottomObject);
-    if (bottomExObj->getID() == typeID && bottomBottomEx->getID() == typeID) return true;
+    if (bottomExObj->getID() == typeID && bottomBottomEx->getID() == typeID) {
+        CCObject *object = colorArray->objectAtIndex(gidToIndex);
+        TPObjectExtension *mainObject = dynamic_cast<TPObjectExtension*>(object);
+        TPBlockSet *blockSet = new TPBlockSet(mainObject, bottomExObj, bottomBottomEx, NULL, NULL,
+                                              "TrioBottom", mainObject->getCoordination().x, mainObject->getCoordination().y);
+        toDestroyArray->addObject(blockSet);
+        return true;
+    }
     return false;
 }
 
@@ -257,7 +271,14 @@ bool TakasuPoppo::isLeftQuadMatch(int gid, int typeID) {
     TPObjectExtension *leftLeftEx = dynamic_cast<TPObjectExtension*>(leftLeftObject);
     CCObject *rightObject = colorArray->objectAtIndex(gidToIndex + 1);
     TPObjectExtension *rightExObj = dynamic_cast<TPObjectExtension*>(rightObject);
-    if (leftExObj->getID() == typeID && leftLeftEx->getID() == typeID && rightExObj->getID() == typeID) return true;
+    if (leftExObj->getID() == typeID && leftLeftEx->getID() == typeID && rightExObj->getID() == typeID) {
+        CCObject *object = colorArray->objectAtIndex(gidToIndex);
+        TPObjectExtension *mainObject = dynamic_cast<TPObjectExtension*>(object);
+        TPBlockSet *blockSet = new TPBlockSet(leftLeftEx, leftExObj, mainObject, rightExObj, NULL,
+                                              "QuadLeft", mainObject->getCoordination().x, mainObject->getCoordination().y);
+        toDestroyArray->addObject(blockSet);
+        return true;
+    }
     return false;
 }
 
@@ -270,7 +291,14 @@ bool TakasuPoppo::isRightQuadMatch(int gid, int typeID) {
     TPObjectExtension *rightRightEx = dynamic_cast<TPObjectExtension*>(rightRightObject);
     CCObject *leftObject = colorArray->objectAtIndex(gidToIndex - 1);
     TPObjectExtension *leftExObj = dynamic_cast<TPObjectExtension*>(leftObject);
-    if (rightExObj->getID() == typeID && rightRightEx->getID() == typeID && leftExObj->getID() == typeID) return true;
+    if (rightExObj->getID() == typeID && rightRightEx->getID() == typeID && leftExObj->getID() == typeID) {
+        CCObject *object = colorArray->objectAtIndex(gidToIndex);
+        TPObjectExtension *mainObject = dynamic_cast<TPObjectExtension*>(object);
+        TPBlockSet *blockSet = new TPBlockSet(leftExObj, mainObject, rightExObj, rightRightEx, NULL,
+                                              "QuadRight", mainObject->getCoordination().x, mainObject->getCoordination().y);
+        toDestroyArray->addObject(blockSet);
+        return true;
+    }
     return false;
 }
 
@@ -282,7 +310,14 @@ bool TakasuPoppo::isUpQuadMatch(int gid, int typeID) {
     TPObjectExtension *topTopEx = dynamic_cast<TPObjectExtension*>(topTopObj);
     CCObject *bottomObject = colorArray->objectAtIndex(gidToIndex + 7);
     TPObjectExtension *bottomExObj = dynamic_cast<TPObjectExtension*>(bottomObject);
-    if (topExObj->getID() == typeID && topTopEx->getID() == typeID && bottomExObj->getID() == typeID) return true;
+    if (topExObj->getID() == typeID && topTopEx->getID() == typeID && bottomExObj->getID() == typeID) {
+        CCObject *object = colorArray->objectAtIndex(gidToIndex);
+        TPObjectExtension *mainObject = dynamic_cast<TPObjectExtension*>(object);
+        TPBlockSet *blockSet = new TPBlockSet(topTopEx, topExObj, mainObject, bottomExObj, NULL,
+                                              "QuadTop", mainObject->getCoordination().x, mainObject->getCoordination().y);
+        toDestroyArray->addObject(blockSet);
+        return true;
+    }
     return false;
 }
 
@@ -294,7 +329,14 @@ bool TakasuPoppo::isDownQuadMatch(int gid, int typeID) {
     TPObjectExtension *bottomBottomEx = dynamic_cast<TPObjectExtension*>(bottomBottomObject);
     CCObject *topObject = colorArray->objectAtIndex(gidToIndex - 7);
     TPObjectExtension *topExObj = dynamic_cast<TPObjectExtension*>(topObject);
-    if (bottomExObj->getID() == typeID && bottomBottomEx->getID() == typeID && topExObj->getID() == typeID) return true;
+    if (bottomExObj->getID() == typeID && bottomBottomEx->getID() == typeID && topExObj->getID() == typeID) {
+        CCObject *object = colorArray->objectAtIndex(gidToIndex);
+        TPObjectExtension *mainObject = dynamic_cast<TPObjectExtension*>(object);
+        TPBlockSet *blockSet = new TPBlockSet(topExObj, mainObject, bottomExObj, bottomBottomEx, NULL,
+                                              "QuadBottom", mainObject->getCoordination().x, mainObject->getCoordination().y);
+        toDestroyArray->addObject(blockSet);
+        return true;
+    }
     return false;
 }
 
@@ -308,7 +350,7 @@ bool TakasuPoppo::isMidHorMatch(int gid, int typeID) {
         CCObject *object = colorArray->objectAtIndex(gidToIndex);
         TPObjectExtension *mainObject = dynamic_cast<TPObjectExtension*>(object);
         TPBlockSet *blockSet = new TPBlockSet(leftExObj, mainObject, rightExObj, NULL, NULL,
-                                              "TrioMid", mainObject->getCoordination().x, mainObject->getCoordination().y);
+                                              "TrioHor", mainObject->getCoordination().x, mainObject->getCoordination().y);
         toDestroyArray->addObject(blockSet);
         return true;
     }
@@ -321,7 +363,14 @@ bool TakasuPoppo::isMidVerMatch(int gid, int typeID) {
     TPObjectExtension *topExObj = dynamic_cast<TPObjectExtension*>(topObject);
     CCObject *bottomObject = colorArray->objectAtIndex(gidToIndex + 7);
     TPObjectExtension *bottomExObj = dynamic_cast<TPObjectExtension*>(bottomObject);
-    if (topExObj->getID() == typeID && bottomExObj->getID() == typeID) return true;
+    if (topExObj->getID() == typeID && bottomExObj->getID() == typeID) {
+        CCObject *object = colorArray->objectAtIndex(gidToIndex);
+        TPObjectExtension *mainObject = dynamic_cast<TPObjectExtension*>(object);
+        TPBlockSet *blockSet = new TPBlockSet(topExObj, mainObject, bottomExObj, NULL, NULL,
+                                              "TrioVer", mainObject->getCoordination().x, mainObject->getCoordination().y);
+        toDestroyArray->addObject(blockSet);
+        return true;
+    }
     return false;
 }
 
@@ -336,7 +385,14 @@ bool TakasuPoppo::isPentaHorMatch(int gid, int typeID) {
     CCObject *leftLeftObject = colorArray->objectAtIndex(gidToIndex - 2);
     TPObjectExtension *leftLeftEx = dynamic_cast<TPObjectExtension*>(leftLeftObject);
     if (leftExObj->getID() == typeID && leftLeftEx->getID() == typeID &&
-        rightExObj->getID() == typeID && rightRightEx->getID() == typeID) return true;
+        rightExObj->getID() == typeID && rightRightEx->getID() == typeID) {
+        CCObject *object = colorArray->objectAtIndex(gidToIndex);
+        TPObjectExtension *mainObject = dynamic_cast<TPObjectExtension*>(object);
+        TPBlockSet *blockSet = new TPBlockSet(leftLeftEx, leftExObj, mainObject, rightExObj, rightRightEx,
+                                              "PentaHor", mainObject->getCoordination().x, mainObject->getCoordination().y);
+        toDestroyArray->addObject(blockSet);
+        return true;
+    }
     return false;
 }
 
@@ -351,6 +407,13 @@ bool TakasuPoppo::isPentaVerMatch(int gid, int typeID) {
     CCObject *bottomBottomObject = colorArray->objectAtIndex(gidToIndex + 14);
     TPObjectExtension *bottomBottomEx = dynamic_cast<TPObjectExtension*>(bottomBottomObject);
     if (topExObj->getID() == typeID && topTopEx->getID() == typeID &&
-        bottomExObj->getID() == typeID && bottomBottomEx->getID() == typeID) return true;
+        bottomExObj->getID() == typeID && bottomBottomEx->getID() == typeID) {
+        CCObject *object = colorArray->objectAtIndex(gidToIndex);
+        TPObjectExtension *mainObject = dynamic_cast<TPObjectExtension*>(object);
+        TPBlockSet *blockSet = new TPBlockSet(topTopEx, topExObj, mainObject, bottomExObj, bottomBottomEx,
+                                              "PentaVer", mainObject->getCoordination().x, mainObject->getCoordination().y);
+        toDestroyArray->addObject(blockSet);
+        return true;
+    }
     return false;
 }
