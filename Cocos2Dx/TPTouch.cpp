@@ -24,6 +24,15 @@ void TakasuPoppo::ccTouchesBegan(CCSet *touches, CCEvent *event) {
             spriteContained = true;
         }
     }
+    
+    CCRect buttonRect = buttonSprite->boundingBox();
+    CCRect clearRect = removeButton->boundingBox();
+    CCRect refreshRect = refreshButton->boundingBox();
+    if (buttonRect.containsPoint(touchLoc) && !gridOn)TakasuPoppo::switchGrid();
+    if (clearRect.containsPoint(touchLoc) && gridOn)TakasuPoppo::remove();
+    if (refreshRect.containsPoint(touchLoc))
+        this->runAction(CCSequence::create(CCCallFunc::create(this, callfunc_selector(TakasuPoppo::destroyAllBlocks)),
+                                           CCCallFunc::create(this, callfunc_selector(TakasuPoppo::createFixture)),NULL));
 }
 
 void TakasuPoppo::ccTouchesMoved (CCSet *touches, CCEvent *event) {
@@ -80,12 +89,7 @@ void TakasuPoppo::ccTouchesEnded(CCSet *touches, CCEvent *event) {
         
     }
     pickedArray->removeAllObjects();
-    CCRect buttonRect = buttonSprite->boundingBox();
-    CCRect clearRect = removeButton->boundingBox();
-    CCRect refreshRect = refreshButton->boundingBox();
-    if (buttonRect.containsPoint(touchLoc) && !gridOn)TakasuPoppo::switchGrid();
-    if (clearRect.containsPoint(touchLoc) && gridOn)TakasuPoppo::remove();
-    if (refreshRect.containsPoint(touchLoc) && gridOn)TakasuPoppo::refresh();
+    
 }
 
 bool TakasuPoppo::touchPosValidation(CCPoint touchLoc) {
