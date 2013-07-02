@@ -97,11 +97,15 @@ public:
     void removeObjectsFromDestroyArray();
     void onRemoveMoveTiles(TPObjectExtension *exObj);
     
+    void popParticles(CCPoint position);
+    void remoteParticles();
+    
     void setupDebugButton();
     void switchGrid();
     void remove();
     void refresh();
     void checkTile();
+    void destroyAllBlocks();
     
     void menuCloseCallback(CCObject* pSender);
     CREATE_FUNC(TakasuPoppo);

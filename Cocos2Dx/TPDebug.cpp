@@ -75,6 +75,18 @@ void TakasuPoppo::checkTile() {
 //    }
 }
 
+void TakasuPoppo::destroyAllBlocks() {
+    CCObject *object;
+    CCARRAY_FOREACH(colorArray, object) {
+        TPObjectExtension* exObj = dynamic_cast<TPObjectExtension*>(object);
+        CCSprite *toRemoveSprite = exObj->getSprite();
+        TakasuPoppo::popParticles(exObj->getPosition());
+        this->removeChild(toRemoveSprite, true);
+        exObj->setSprite(NULL);
+        exObj->setID(7);
+    }
+}
+
 void TakasuPoppo::menuCloseCallback(CCObject* pSender) {
     CCDirector::sharedDirector()->end();
     

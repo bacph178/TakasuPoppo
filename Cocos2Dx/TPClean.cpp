@@ -12,24 +12,31 @@ void TakasuPoppo::cleanBlocks() {
     CCObject *object;
     if (toDestroyArray->count() != 0) {
         CCARRAY_FOREACH(toDestroyArray, object) {
+            
             TPBlockSet *blockSet = dynamic_cast<TPBlockSet*>(object);
             CCSprite *ex1 = blockSet->getEx1()->getSprite();
             CCSprite *ex2 = blockSet->getEx2()->getSprite();
             CCSprite *ex3 = blockSet->getEx3()->getSprite();
             this->removeChild(ex1);
+            TakasuPoppo::popParticles(blockSet->getEx1()->getPosition());
             this->removeChild(ex2);
+            TakasuPoppo::popParticles(blockSet->getEx2()->getPosition());
             this->removeChild(ex3);
+            TakasuPoppo::popParticles(blockSet->getEx3()->getPosition());
             blockSet->getEx1()->setID(7);
             blockSet->getEx2()->setID(7);
             blockSet->getEx3()->setID(7);
+            
             if (blockSet->getEx4()) {
                 CCSprite *ex4 = blockSet->getEx4()->getSprite();
                 ex4->removeFromParentAndCleanup(true);
+                TakasuPoppo::popParticles(blockSet->getEx4()->getPosition());
                 blockSet->getEx4()->setID(7);
             }
             if (blockSet->getEx5()) {
                 CCSprite *ex5 = blockSet->getEx5()->getSprite();
                 ex5->removeFromParentAndCleanup(true);
+                TakasuPoppo::popParticles(blockSet->getEx5()->getPosition());
                 blockSet->getEx5()->setID(7);
             }
         }
