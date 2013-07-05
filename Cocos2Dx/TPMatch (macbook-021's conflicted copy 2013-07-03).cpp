@@ -394,8 +394,6 @@ bool TakasuPoppo::isPentaHorMatch(int gid, int typeID) {
         return true;
     }
     return false;
-    
-    
 }
 
 bool TakasuPoppo::isPentaVerMatch(int gid, int typeID) {
@@ -420,206 +418,67 @@ bool TakasuPoppo::isPentaVerMatch(int gid, int typeID) {
     return false;
 }
 
-CCArray *TakasuPoppo::matchList() {
-    CCArray *match = new CCArray;        
-        for (int y = 0; y < 7; y++) {
-            for (int x = 0; x < 5; x++) {
-                CCPoint coor = ccp(x, y);
-                int gid = layer->tileGIDAt(coor);
-                int gidToIndex = gid - 1;
-                CCObject *object = colorArray->objectAtIndex(gidToIndex);
-                TPObjectExtension *exObj = dynamic_cast<TPObjectExtension*>(object);
-                if (exObj->getCoordination().x == coor.x &&
-                    exObj->getCoordination().y == coor.y) {
-                    if (TakasuPoppo::getMatchHor(exObj)->count() >= 2) {
-                        match->addObjectsFromArray(TakasuPoppo::getMatchHor(exObj));
-                        x += getMatchHor(exObj)->count();
-                        CCLog("Hor Object on GID %i has match", exObj->getGid());
-                    }
-                }
-            }
-        }
-        
-        for (int x = 0; x < 7; x++) {
-            for (int y = 0; y < 5; y++) {
-                CCPoint coor = ccp(x, y);
-                int gid = layer->tileGIDAt(coor);
-                int gidToIndex = gid - 1;
-                CCObject *object = colorArray->objectAtIndex(gidToIndex);
-                TPObjectExtension *exObj = dynamic_cast<TPObjectExtension*>(object);
-                if (exObj->getCoordination().x == coor.x &&
-                    exObj->getCoordination().y == coor.y) {
-                    if (TakasuPoppo::getMatchVer(exObj)->count() >= 2) {
-                        match->addObjectsFromArray(TakasuPoppo::getMatchVer(exObj));
-                        y += getMatchVer(exObj)->count();
-                        CCLog("Ver Object on GID %i has match", exObj->getGid());
-                    }
-                }
-            }
-        }
+void TakasuPoppo::checkMatches() {
     
+    CCObject *object;
+}
+
+TPObjectExtension *TakasuPoppo::rightBlock(TPObjectExtension *mainObject) {
+    int gidToIndex = mainObject->getGid() - 1;
+    int arrayIndex = gidToIndex + 1;
+    CCObject *object = colorArray->objectAtIndex(arrayIndex);
+    TPObjectExtension *exObj = dynamic_cast<TPObjectExtension*>(object);
+    return exObj;
+}
+
+TPObjectExtension *TakasuPoppo::leftBlock(TPObjectExtension *mainObject) {
+    int gidToIndex = mainObject->getGid() - 1;
+    int arrayIndex = gidToIndex - 1;
+    CCObject *object = colorArray->objectAtIndex(arrayIndex);
+    TPObjectExtension *exObj = dynamic_cast<TPObjectExtension*>(object);
+    return exObj;
+}
+
+TPObjectExtension *TakasuPoppo::topBlock(TPObjectExtension *mainObject) {
+    int gidToIndex = mainObject->getGid() - 1;
+    int arrayIndex = gidToIndex - 7;
+    CCObject *object = colorArray->objectAtIndex(arrayIndex);
+    TPObjectExtension *exObj = dynamic_cast<TPObjectExtension*>(object);
+    return exObj;
+}
+
+TPObjectExtension *TakasuPoppo::bottomBlock(TPObjectExtension *mainObject) {
+    int gidToIndex = mainObject->getGid() - 1;
+    int arrayIndex = gidToIndex + 7;
+    CCObject *object = colorArray->objectAtIndex(arrayIndex);
+    TPObjectExtension *exObj = dynamic_cast<TPObjectExtension*>(object);
+    return exObj;
+}
+
+TPObjectExtension *TakasuPoppo::rightrightBlock(TPObjectExtension *mainObject) {
+    int gidToIndex = mainObject->getGid() - 1;
+    int arrayIndex = gidToIndex + 2;
+    CCObject *object = colorArray->objectAtIndex(arrayIndex);
+    TPObjectExtension *exObj = dynamic_cast<TPObjectExtension*>(object);
+    return exObj;
+}
+
+TPObjectExtension *TakasuPoppo::leftleftBlock(TPObjectExtension *mainObject) {
+    int gidToIndex = mainObject->getGid() - 1;
+    int arrayIndex = gidToIndex - 2;
+    CCObject *object = colorArray->objectAtIndex(arrayIndex);
+    TPObjectExtension *exObj = dynamic_cast<TPObjectExtension*>(object);
+    return exObj;
+}
+
+TPObjectExtension *TakasuPoppo::toptopBlock(TPObjectExtension *mainObject) {
+    int gidToIndex = mainObject->getGid() - 1;
+    int arrayIndex = gidToIndex + ;
+    CCObject *object = colorArray->objectAtIndex(arrayIndex);
+    TPObjectExtension *exObj = dynamic_cast<TPObjectExtension*>(object);
+    return exObj;
+}
+
+TPObjectExtension *TakasuPoppo::botbotBlock(TPObjectExtension *mainObject) {
     
-    return match;
 }
-
-CCArray *TakasuPoppo::getMatchHor(TPObjectExtension *exObj) {
-    CCArray *matches = new CCArray;
-    int colNum= exObj->getCoordination().x;
-    for (int ct = 1; colNum + ct < 7; ct++) {
-        CCPoint coor = ccp(colNum + ct, exObj->getCoordination().y);
-        int gid = layer->tileGIDAt(coor);
-        int gidToIndex = gid - 1;
-        CCObject *object = colorArray->objectAtIndex(gidToIndex);
-        TPObjectExtension *checkObj = dynamic_cast<TPObjectExtension*>(object);
-        if (checkObj->getCoordination().x == coor.x &&
-            checkObj->getCoordination().y == coor.y &&
-            checkObj->getID() == exObj->getID()) {
-            matches->addObject(checkObj);
-            //CCLog("CheckObj Gid: %i, CID: %i ", checkObj->getGid(), checkObj->getID());
-        }
-        else return matches;
-    }
-    return matches;
-}
-
-CCArray *TakasuPoppo::getMatchVer(TPObjectExtension *exObj) {
-    CCArray *matches = new CCArray;
-    int rowNum= exObj->getCoordination().y;
-    for (int ct = 1; rowNum + ct < 7; ct++) {
-        CCPoint coor = ccp(exObj->getCoordination().x, rowNum + ct);
-        int gid = layer->tileGIDAt(coor);
-        int gidToIndex = gid - 1;
-        CCObject *object = colorArray->objectAtIndex(gidToIndex);
-        TPObjectExtension *checkObj = dynamic_cast<TPObjectExtension*>(object);
-        if (checkObj->getCoordination().x == coor.x &&
-            checkObj->getCoordination().y == coor.y &&
-            checkObj->getID() == exObj->getID()) {
-            matches->addObject(checkObj);
-        }
-        else return matches;
-    }
-    return matches;
-}
-
-
-/*
- |======================================|
- |        Grid Variables Mapping        |
- |======================================|
- |    |     -2  -1   0  +1  +2  +3      |
- |----|---------------------------------|
- | -3 |              j                  |
- | -2 |          y   h   i              |
- | -1 |      k   l   e   f   g          |
- |  0 |      m   n  [a]  b   c   d      |
- | +1 |          s   o   p   t          |
- | +2 |          x   q   r              |
- |======================================|
- */
-
-void TakasuPoppo::lookForMatches() {
-    int match = 0;
-    for (int x = 0; x < 7; x++) {
-        for (int y = 0; y < 7; y++) {
-            CCPoint aPoint = ccp(x, y);
-            CCPoint bPoint = ccp(x + 1, y);
-            CCPoint cPoint = ccp(x + 2, y);
-            CCPoint dPoint = ccp(x + 3, y);
-            CCPoint ePoint = ccp(x, y - 1);
-            CCPoint fPoint = ccp(x + 1, y - 1);
-            CCPoint gPoint = ccp(x + 2, y - 1);
-            CCPoint hPoint = ccp(x, y - 2);
-            CCPoint iPoint = ccp(x + 1, y - 2);
-            CCPoint jPoint = ccp(x, y - 3);
-            CCPoint kPoint = ccp(x - 2, y - 1);
-            CCPoint lPoint = ccp(x - 1, y - 1);
-            CCPoint mPoint = ccp(x - 2, y);
-            CCPoint nPoint = ccp(x - 1, y);
-            CCPoint oPoint = ccp(x, y + 1);
-            CCPoint pPoint = ccp(x + 1, y + 1);
-            CCPoint qPoint = ccp(x, y + 2);
-            CCPoint rPoint = ccp(x + 1, y + 2);
-            CCPoint sPoint = ccp(x - 1, y + 1);
-            CCPoint tPoint = ccp(x + 2, y + 1);
-            CCPoint xPoint = ccp(x - 1, y + 2);
-            CCPoint yPoint = ccp(x - 1, y - 2);
-            
-            TPObjectExtension *aExObj = TakasuPoppo::coorToExObj(aPoint);
-            TPObjectExtension *bExObj = TakasuPoppo::coorToExObj(bPoint);
-            TPObjectExtension *cExObj = TakasuPoppo::coorToExObj(cPoint);
-            TPObjectExtension *dExObj = TakasuPoppo::coorToExObj(dPoint);
-            TPObjectExtension *eExObj = TakasuPoppo::coorToExObj(ePoint);
-            TPObjectExtension *fExObj = TakasuPoppo::coorToExObj(fPoint);
-            TPObjectExtension *gExObj = TakasuPoppo::coorToExObj(gPoint);
-            TPObjectExtension *hExObj = TakasuPoppo::coorToExObj(hPoint);
-            TPObjectExtension *iExObj = TakasuPoppo::coorToExObj(iPoint);
-            TPObjectExtension *jExObj = TakasuPoppo::coorToExObj(jPoint);
-            TPObjectExtension *kExObj = TakasuPoppo::coorToExObj(kPoint);
-            TPObjectExtension *lExObj = TakasuPoppo::coorToExObj(lPoint);
-            TPObjectExtension *mExObj = TakasuPoppo::coorToExObj(mPoint);
-            TPObjectExtension *nExObj = TakasuPoppo::coorToExObj(nPoint);
-            TPObjectExtension *oExObj = TakasuPoppo::coorToExObj(oPoint);
-            TPObjectExtension *pExObj = TakasuPoppo::coorToExObj(pPoint);
-            TPObjectExtension *qExObj = TakasuPoppo::coorToExObj(qPoint);
-            TPObjectExtension *rExObj = TakasuPoppo::coorToExObj(rPoint);
-            TPObjectExtension *sExObj = TakasuPoppo::coorToExObj(sPoint);
-            TPObjectExtension *tExObj = TakasuPoppo::coorToExObj(tPoint);
-            TPObjectExtension *xExObj = TakasuPoppo::coorToExObj(xPoint);
-            TPObjectExtension *yExObj = TakasuPoppo::coorToExObj(yPoint);
-            
-            if (bExObj != NULL && bExObj->getID() == aExObj->getID()) {
-                if (TakasuPoppo::sumOfMatches(aExObj, bExObj, lExObj, sExObj, mExObj)) match++;
-                if (TakasuPoppo::sumOfMatches(aExObj, bExObj, gExObj, tExObj, dExObj)) match++;
-            }
-            if (eExObj != NULL && eExObj->getID() == aExObj->getID()) {
-                if (TakasuPoppo::sumOfMatches(aExObj, eExObj, iExObj, jExObj, yExObj)) match++;
-                if (TakasuPoppo::sumOfMatches(aExObj, eExObj, pExObj, qExObj, sExObj))match++;
-            }
-            if (hExObj != NULL && hExObj->getID() == aExObj->getID()) {
-                if (TakasuPoppo::sumOfMatches(aExObj, hExObj, dExObj, fExObj, NULL)) match++;
-            }
-            if (qExObj != NULL && qExObj->getID() == aExObj->getID()) {
-               if (TakasuPoppo::sumOfMatches(aExObj, qExObj, pExObj, sExObj, NULL)) match++;
-            }
-            if (mExObj != NULL && mExObj->getID() == aExObj->getID()) {
-                if (TakasuPoppo::sumOfMatches(aExObj, mExObj, dExObj, sExObj, NULL)) match++;
-            }
-            if (cExObj != NULL && cExObj->getID() == aExObj->getID()) {
-                if (TakasuPoppo::sumOfMatches(aExObj, cExObj, fExObj, pExObj, NULL)) match++;
-            }
-        }
-    }
-    CCLog("There are %i possible matches", match);
-}
-
-bool TakasuPoppo::sumOfMatches(TPObjectExtension *exA, TPObjectExtension *exB,
-                               TPObjectExtension *ex1, TPObjectExtension *ex2, TPObjectExtension *ex3) {
-
-        if (ex1 != NULL && ex1->getID() == exA->getID()) {
-            CCLog("Block on GID %i has possibility combo with GID %i and GID %i", exA->getGid(), exB->getGid(), ex1->getGid());
-            return true;
-        }
-        if (ex2 != NULL && ex2->getID() == exA->getID()) {
-            CCLog("Block on GID %i has possibility combo with GID %i and GID %i", exA->getGid(), exB->getGid(), ex2->getGid());
-            return true;
-        }
-        if (ex3 != NULL && ex3->getID() == exA->getID()) {
-            CCLog("Block on GID %i has possibility combo with GID %i and GID %i", exA->getGid(), exB->getGid(), ex3->getGid());
-            return true;
-        }
-    
-    return false;
-}
-
-TPObjectExtension *TakasuPoppo::coorToExObj(CCPoint coor) {
-    if ((coor.x >= 0 && coor.x < 7) && (coor.y >= 0 && coor.y < 7)) {
-        int gid = layer->tileGIDAt(coor);
-        int gidToIndex = gid - 1;
-        CCObject *object = colorArray->objectAtIndex(gidToIndex);
-        TPObjectExtension *exObj = dynamic_cast<TPObjectExtension*>(object);
-        return exObj;
-    }
-    return NULL;
-}
-
-

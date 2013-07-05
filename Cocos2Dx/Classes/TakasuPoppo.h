@@ -27,6 +27,7 @@ private:
     CCArray *pickedArray;
     
     CCArray *debugTilesArray;
+    CCArray *testArray;
     
     bool spriteContained;
     bool swiping;
@@ -39,19 +40,32 @@ private:
     
     bool gridOn = false;
 public:
+    //TakasuPoppo
     static cocos2d::CCScene* scene();
-    
     virtual bool init();
     virtual void update(float dt);
+    void menuCloseCallback(CCObject* pSender);
     
+    //TPTouch
     virtual void ccTouchesBegan(CCSet *touches, CCEvent *event);
     virtual void ccTouchesMoved(CCSet *touches, CCEvent *event);
     virtual void ccTouchesEnded(CCSet *touches, CCEvent *event);
+    bool touchPosValidation(CCPoint touchLoc);
     
+    //TPMap
     void addTileMap();
     void createFixture();
+    void checkEmpty();
+    void generateRandomBlock(TPObjectExtension *exObj);
+    CCPoint tileCoorForPosition(CCPoint position);
     
-    bool touchPosValidation(CCPoint touchLoc);
+    void addBlocksToArray();
+    void setValuesForExObj(TPObjectExtension *exObj, int colorID, int gid, CCSprite *sprite, CCPoint position, CCPoint coordination, bool trigger);
+    void checkAndAddToRemove();
+    void removeObjectsFromDestroyArray();
+    void onRemoveMoveTiles(TPObjectExtension *exObj);
+    
+    //TPMatch
     bool isTileMatched(int gid, int typeID);
     bool isBlockMatched(int gid, int typeID);
     
@@ -71,16 +85,24 @@ public:
     bool isPentaHorMatch(int gid, int typeID);
     bool isPentaVerMatch(int gid, int typeID);
     
-    void checkEmpty();
-    void generateRandomBlock(TPObjectExtension *exObj);
+    void lookForMatches();
+    TPObjectExtension *coorToExObj(CCPoint);
     
+    bool sumOfMatches(TPObjectExtension *exA, TPObjectExtension *exB,
+                      TPObjectExtension *ex1, TPObjectExtension *ex2, TPObjectExtension *ex3);
+    
+    bool matchPatternHorTwo(CCPoint coor, CCArray pointsArray);
+
+    
+    CCArray *matchList();
+    CCArray *getMatchHor(TPObjectExtension *exObj);
+    CCArray *getMatchVer(TPObjectExtension *exObj);
+    
+    //TPClean
     void cleanBlocks();
     void afterClean();
     
-    CCPoint tileCoorForPosition(CCPoint position);
-    
-    void setSwipeNavigation();
-    
+    //TPSwiped
     void swapTilesCheck(TPObjectExtension *exObj, int swpGid);
     void swapTilesMoving(TPObjectExtension *exObj, TPObjectExtension *swpObj);
     void swapTilesReturn(TPObjectExtension *exObj, TPObjectExtension *swpObj);
@@ -91,12 +113,7 @@ public:
     void swipedLeft(TPObjectExtension *exObj);
     void swipedRight(TPObjectExtension *exObj);
     
-    void addBlocksToArray();
-    void setValuesForExObj(TPObjectExtension *exObj, int colorID, int gid, CCSprite *sprite, CCPoint position, CCPoint coordination, bool trigger);
-    void checkAndAddToRemove();
-    void removeObjectsFromDestroyArray();
-    void onRemoveMoveTiles(TPObjectExtension *exObj);
-    
+    //TPParticles
     void popParticles(CCPoint position);
     void remoteParticles();
     
@@ -107,7 +124,6 @@ public:
     void checkTile();
     void destroyAllBlocks();
     
-    void menuCloseCallback(CCObject* pSender);
     CREATE_FUNC(TakasuPoppo);
 };
 

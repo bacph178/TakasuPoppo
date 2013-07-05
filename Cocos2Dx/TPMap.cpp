@@ -42,6 +42,7 @@ void TakasuPoppo::createFixture() {
             strcpy(tileName[4], "Candy5");
             strcpy(tileName[5], "Candy6");
             strcpy(tileName[6], "Candy7");
+            
             int randomTile = rand() % 7;
             char spriteName[100];
             
@@ -57,9 +58,9 @@ void TakasuPoppo::createFixture() {
             CCObject *object = colorArray->objectAtIndex(m_gid - 1);
             TPObjectExtension *exObj = dynamic_cast<TPObjectExtension*>(object);
             TakasuPoppo::setValuesForExObj(exObj, randomTile, m_gid, randomTileSprite, tilePosition, tileCoordination, true);
-            CCLog("Tile %i added - Color:%i; GID:%i, TileSprite:%s, TilePosition: X%i Y%i, Tile Coordination; X%i Y%i.",
-                  colorArray->indexOfObject(exObj), randomTile, m_gid, spriteName, (int)tilePosition.x, (int)tilePosition.y,
-                  (int)tileCoordination.x, (int)tileCoordination.y);
+//            CCLog("Tile %i added - Color:%i; GID:%i, TileSprite:%s, TilePosition: X%i Y%i, Tile Coordination; X%i Y%i.",
+//                  colorArray->indexOfObject(exObj), randomTile, m_gid, spriteName, (int)tilePosition.x, (int)tilePosition.y,
+//                  (int)tileCoordination.x, (int)tileCoordination.y);
             
             this->addChild(randomTileSprite, 3, 300 + m_gid);
         }
@@ -71,20 +72,6 @@ CCPoint TakasuPoppo::tileCoorForPosition(CCPoint position) {
     float y = ((winSize.height - position.y)/(map->getTileSize().height)) -1;
     CCPoint transPos = ccp(floor(x), floor(y));
     return transPos;
-}
-
-void TakasuPoppo::swapColorID(TPObjectExtension *exObj, TPObjectExtension *swpObj) {
-    int exID = exObj->getID();
-    CCSprite *exSprite = exObj->getSprite();
-    int swpID = swpObj->getID();
-    CCSprite *swpSprite = swpObj->getSprite();
-    
-    exObj->setID(swpID);
-    swpObj->setID(exID);
-    exObj->setSprite(swpSprite);
-    swpObj->setSprite(exSprite);
-    CCLog("Tile %i's color %i got swaped with tile %i's color %i.",
-          exObj->getGid(), exObj->getID(), swpObj->getGid(), swpObj->getID());
 }
 
 void TakasuPoppo::checkEmpty() {
@@ -119,3 +106,55 @@ void TakasuPoppo::generateRandomBlock(TPObjectExtension *exObj) {
     this->addChild(randomTileSprite, 3, 300 + exObj->getGid());
 }
 
+#pragma mark Array
+
+void TakasuPoppo::addBlocksToArray() {
+    for (int i = 0; i < 49; i ++) {
+        TPObjectExtension *exObj = new TPObjectExtension(0, 0, NULL, ccp(0, 0), ccp(0, 0), false);
+        colorArray->addObject(exObj);
+    }
+}
+
+void TakasuPoppo::setValuesForExObj(TPObjectExtension *exObj, int colorID, int gid, CCSprite *sprite,
+                                    CCPoint position, CCPoint coordination, bool trigger) {
+    exObj->setID(colorID);
+    exObj->setGid(gid);
+    exObj->setSprite(sprite);
+    exObj->setPosition(position);
+    exObj->setCoordination(coordination);
+    exObj->setControlTrigger(trigger);
+    CCSprite *toMoveSprite = exObj->getSprite();
+    toMoveSprite->runAction(CCMoveTo::create(0.1, exObj->getPosition()));
+}
+
+void TakasuPoppo::checkAndAddToRemove() {
+    CCObject *object;
+    CCARRAY_FOREACH(colorArray, object) {
+        TPObjectExtension *exObj = dynamic_cast<TPObjectExtension*>(object);
+        int gid = exObj->getGid();
+        int id = exObj->getID();
+        if (TakasuPoppo::isBlockMatched(gid, id)) {
+            toDestroyArray->addObject(exObj);
+        }
+    }
+}
+
+void TakasuPoppo::removeObjectsFromDestroyArray() {
+    if (toDestroyArray->count() > 0) {
+        CCObject *object;
+        CCARRAY_FOREACH(toDestroyArray, object) {
+            TPObjectExtension *exObj = dynamic_cast<TPObjectExtension*>(object);
+            CCSprite *toRemoveSprite = exObj->getSprite();
+            exObj->setID(7);
+            exObj->setSprite(NULL);
+            if (toRemoveSprite)toRemoveSprite->removeFromParentAndCleanup(true);
+            TakasuPoppo::onRemoveMoveTiles(exObj);
+            if (gridOn)TakasuPoppo::refresh();
+        }
+    }
+}
+
+void TakasuPoppo::onRemoveMoveTiles(TPObjectExtension *exObj) {
+    
+    
+}
