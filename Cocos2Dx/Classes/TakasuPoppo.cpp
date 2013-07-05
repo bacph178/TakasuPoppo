@@ -21,17 +21,19 @@ CCScene* TakasuPoppo::scene() {
 }
 
 bool TakasuPoppo::init() {
-    srand(time(0));
+    srand(time(NULL));
     if (!CCLayer::init()) return false;
-    
     colorArray = new CCArray;
     toDestroyArray = new CCArray;
     pickedArray = new CCArray;
     
     debugTilesArray = new CCArray;
+    testArray = new CCArray;
     
     TakasuPoppo::addBlocksToArray();
     TakasuPoppo::addTileMap();
+    TakasuPoppo::matchList();
+    
     
     CCSprite *background = CCSprite::create("PuzzleBackgroud3.png");
     background->setPosition(ccp(winSize.width/2, winSize.height/2));
@@ -40,7 +42,8 @@ bool TakasuPoppo::init() {
 //    float y = 0;
 //    float z = 0;
 //    this->getCamera()->setCenterXYZ(x, y + 0.000000005, z);
-    
+    TakasuPoppo::lookForMatches();
+
     TakasuPoppo::setupDebugButton();
     TakasuPoppo::checkTile();
     this->setTouchEnabled(true);
@@ -86,100 +89,4 @@ void TakasuPoppo::update(float dt) {
             pickedArray->removeObject(object);
         }
     }
-}
-
-#pragma mark Tile Interactions
-void TakasuPoppo::swapTilesCheck(TPObjectExtension *exObj, int swpGid) {
-    CCObject *object;
-    CCARRAY_FOREACH(colorArray, object) {
-        TPObjectExtension *objectExtension = dynamic_cast<TPObjectExtension*>(object);
-        if (objectExtension->getGid() == swpGid && exObj && objectExtension) {
-            TakasuPoppo::swapColorID(exObj, objectExtension);
-            if (TakasuPoppo::isBlockMatched(exObj->getGid(), exObj->getID()) ||
-                TakasuPoppo::isBlockMatched(objectExtension->getGid(), objectExtension->getID())) {
-                TakasuPoppo::swapColorID(exObj, objectExtension);
-                TakasuPoppo::swapTilesMoving(exObj, objectExtension);
-            }
-            else {
-                TakasuPoppo::swapColorID(exObj, objectExtension);
-                TakasuPoppo::swapTilesReturn(exObj, objectExtension);
-            }
-        }
-    }
-}
-
-void TakasuPoppo::swapTilesMoving(TPObjectExtension *exObj, TPObjectExtension *swpObj) {
-    CCSprite *sprite = (CCSprite*)exObj->getSprite();
-    CCSprite *swpSprite = (CCSprite*)swpObj->getSprite();
-    sprite->runAction(CCMoveTo::create(0.1, swpObj->getPosition()));
-    swpSprite->runAction(CCSequence::create(CCMoveTo::create(0.1, exObj->getPosition()),
-                                            CCCallFunc::create(this, callfunc_selector(TakasuPoppo::cleanBlocks)),
-                                            CCCallFunc::create(this, callfunc_selector(TakasuPoppo::afterClean)),
-                                            CCCallFunc::create(this, callfunc_selector(TakasuPoppo::checkEmpty)), NULL));
-    
-    TakasuPoppo::swapColorID(exObj, swpObj);
-    if (gridOn)TakasuPoppo::refresh();
-}
-
-void TakasuPoppo::swapTilesReturn(TPObjectExtension *exObj, TPObjectExtension *swpObj) {
-    CCSprite *sprite = (CCSprite*)exObj->getSprite();
-    CCSprite *swpSprite = (CCSprite*)swpObj->getSprite();
-    sprite->runAction(CCSequence::create(CCMoveTo::create(0.1, swpObj->getPosition()),
-                                         CCMoveTo::create(0.1, exObj->getPosition()), NULL));
-    swpSprite->runAction(CCSequence::create(CCMoveTo::create(0.1, exObj->getPosition()),
-                                            CCMoveTo::create(0.1, swpObj->getPosition()), NULL));
-}
-
-
-#pragma mark Array
-
-void TakasuPoppo::addBlocksToArray() {
-    for (int i = 0; i < 49; i ++) {
-        TPObjectExtension *exObj = new TPObjectExtension(0, 0, NULL, ccp(0, 0), ccp(0, 0), false);
-        colorArray->addObject(exObj);
-    }
-}
-
-void TakasuPoppo::setValuesForExObj(TPObjectExtension *exObj, int colorID, int gid, CCSprite *sprite,
-                                    CCPoint position, CCPoint coordination, bool trigger) {
-    exObj->setID(colorID);
-    exObj->setGid(gid);
-    exObj->setSprite(sprite);
-    exObj->setPosition(position);
-    exObj->setCoordination(coordination);
-    exObj->setControlTrigger(trigger);
-    CCSprite *toMoveSprite = exObj->getSprite();
-    toMoveSprite->runAction(CCMoveTo::create(0.1, exObj->getPosition()));
-}
-
-void TakasuPoppo::checkAndAddToRemove() {
-    CCObject *object;
-    CCARRAY_FOREACH(colorArray, object) {
-        TPObjectExtension *exObj = dynamic_cast<TPObjectExtension*>(object);
-        int gid = exObj->getGid();
-        int id = exObj->getID();
-        if (TakasuPoppo::isBlockMatched(gid, id)) {
-            toDestroyArray->addObject(exObj);
-        }
-    }
-}
-
-void TakasuPoppo::removeObjectsFromDestroyArray() {
-    if (toDestroyArray->count() > 0) {
-        CCObject *object;
-        CCARRAY_FOREACH(toDestroyArray, object) {
-            TPObjectExtension *exObj = dynamic_cast<TPObjectExtension*>(object);
-            CCSprite *toRemoveSprite = exObj->getSprite();
-            exObj->setID(7);
-            exObj->setSprite(NULL);
-            if (toRemoveSprite)toRemoveSprite->removeFromParentAndCleanup(true);
-            TakasuPoppo::onRemoveMoveTiles(exObj);
-            if (gridOn)TakasuPoppo::refresh();
-        }
-    }
-}
-
-void TakasuPoppo::onRemoveMoveTiles(TPObjectExtension *exObj) {
-    
-    
 }
