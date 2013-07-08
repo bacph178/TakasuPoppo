@@ -5,7 +5,7 @@
 //  Created by macbook_006 on 13/06/28.
 //
 //
-
+#include "TPBlockSet.h"
 #include "TakasuPoppo.h"
 #pragma mark Swipe Actions
 
@@ -47,15 +47,46 @@ void TakasuPoppo::swapTilesCheck(TPObjectExtension *exObj, int swpGid) {
     CCARRAY_FOREACH(colorArray, object) {
         TPObjectExtension *objectExtension = dynamic_cast<TPObjectExtension*>(object);
         if (objectExtension->getGid() == swpGid && exObj && objectExtension) {
+            
             TakasuPoppo::swapColorID(exObj, objectExtension);
-            if (TakasuPoppo::isBlockMatched(exObj->getGid(), exObj->getID()) ||
-                TakasuPoppo::isBlockMatched(objectExtension->getGid(), objectExtension->getID())) {
-                TakasuPoppo::swapColorID(exObj, objectExtension);
-                TakasuPoppo::swapTilesMoving(exObj, objectExtension);
-            }
-            else {
+            ////////////////////////////////////////
+//            if (TakasuPoppo::isBlockMatched(exObj->getGid(), exObj->getID()) ||
+//                TakasuPoppo::isBlockMatched(objectExtension->getGid(), objectExtension->getID())) {
+//                TakasuPoppo::swapColorID(exObj, objectExtension);
+//                TakasuPoppo::swapTilesMoving(exObj, objectExtension);
+//            }
+//            else {
+//                TakasuPoppo::swapColorID(exObj, objectExtension);
+//                TakasuPoppo::swapTilesReturn(exObj, objectExtension);
+//            }
+            
+            CCSprite *sprite = (CCSprite*)exObj->getSprite();
+            CCSprite *swpSprite = (CCSprite*)exObj->getSprite();
+            sprite->runAction(CCMoveTo::create(0.1, objectExtension->getPosition()));
+            swpSprite->runAction(CCMoveTo::create(0.1, exObj->getPosition()));
+            TakasuPoppo::swapColorID(exObj, objectExtension);
+            TakasuPoppo::swapTilesMoving(exObj, objectExtension);
+            if(matchList()->count() == 0)
+            {
+                CCLOG("Match List.........d");
                 TakasuPoppo::swapColorID(exObj, objectExtension);
                 TakasuPoppo::swapTilesReturn(exObj, objectExtension);
+                
+
+            }
+            else{
+                CCObject *i;
+                CCARRAY_FOREACH(matchList(),i)
+                {
+                    TPBlockSet * bl = (TPBlockSet*)i;
+                    CCLOG("Match List... %d",bl->getEx1()->getGid());
+                    
+                    toDestroyArray->addObject(bl);
+                    TakasuPoppo::swapColorID(exObj, objectExtension);
+                    this->runAction(CCSequence::create(CCCallFunc::create(this, callfunc_selector(TakasuPoppo::cleanBlocks)),
+                                                            CCCallFunc::create(this, callfunc_selector(TakasuPoppo::afterClean)),
+                                                            CCCallFunc::create(this, callfunc_selector(TakasuPoppo::checkEmpty)), NULL));
+                }
             }
         }
     }
@@ -79,6 +110,7 @@ void TakasuPoppo::swapTilesMoving(TPObjectExtension *exObj, TPObjectExtension *s
     CCSprite *sprite = (CCSprite*)exObj->getSprite();
     CCSprite *swpSprite = (CCSprite*)swpObj->getSprite();
     sprite->runAction(CCMoveTo::create(0.1, swpObj->getPosition()));
+    //swpSprite->runAction(CCMoveTo::create(0.1, exObj->getPosition()));
     swpSprite->runAction(CCSequence::create(CCMoveTo::create(0.1, exObj->getPosition()),
                                             CCCallFunc::create(this, callfunc_selector(TakasuPoppo::cleanBlocks)),
                                             CCCallFunc::create(this, callfunc_selector(TakasuPoppo::afterClean)),

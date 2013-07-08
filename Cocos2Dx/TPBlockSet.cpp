@@ -71,3 +71,14 @@ TPObjectExtension *TPBlockSet::getEx5() {
     if (ex5 != NULL) return ex5;
     else return NULL;
 }
+
+void TPBlockSet::setEx4(TPObjectExtension * cp){
+    this->ex4 = cp;
+}
+void TPBlockSet::setEx5(TPObjectExtension * cp){
+    this->ex5 = cp;
+}
+void TPBlockSet::setType(string c){
+    this->type = c;
+    
+}

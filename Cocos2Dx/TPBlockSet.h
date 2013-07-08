@@ -35,6 +35,9 @@ public:
     TPObjectExtension *getEx3();
     TPObjectExtension *getEx4();
     TPObjectExtension *getEx5();
+    void setEx4(TPObjectExtension * cp);
+    void setEx5(TPObjectExtension *cp);
+    void setType(string type);
     int getColumn();
     int getRow();
 };

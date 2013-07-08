@@ -421,7 +421,7 @@ bool TakasuPoppo::isPentaVerMatch(int gid, int typeID) {
 }
 
 CCArray *TakasuPoppo::matchList() {
-    CCArray *match = new CCArray;        
+    CCArray *match = new CCArray();
         for (int y = 0; y < 7; y++) {
             for (int x = 0; x < 5; x++) {
                 CCPoint coor = ccp(x, y);
@@ -431,8 +431,26 @@ CCArray *TakasuPoppo::matchList() {
                 TPObjectExtension *exObj = dynamic_cast<TPObjectExtension*>(object);
                 if (exObj->getCoordination().x == coor.x &&
                     exObj->getCoordination().y == coor.y) {
+                    
                     if (TakasuPoppo::getMatchHor(exObj)->count() >= 2) {
-                        match->addObjectsFromArray(TakasuPoppo::getMatchHor(exObj));
+                        
+                        //match->addObjectsFromArray(TakasuPoppo::getMatchHor(exObj));
+                        TPObjectExtension* cp1 = (TPObjectExtension*)getMatchHor(exObj)->objectAtIndex(0);
+                        TPObjectExtension* cp2 = (TPObjectExtension*)getMatchHor(exObj)->objectAtIndex(1);
+                        TPBlockSet *blockset = new TPBlockSet(exObj, cp1, cp2, NULL, NULL, "TrioRight", exObj->getCoordination().x , exObj->getCoordination().y);
+                        if(TakasuPoppo::getMatchHor(exObj)->count() == 3)
+                        {
+                            TPObjectExtension* cp3 = (TPObjectExtension*)getMatchHor(exObj)->objectAtIndex(2);
+                            blockset->setEx4(cp3);
+                            blockset->setType("QuadRight");
+                            if(TakasuPoppo::getMatchHor(exObj)->count() == 4)
+                            {
+                                TPObjectExtension* cp4 = (TPObjectExtension*)getMatchHor(exObj)->objectAtIndex(2);
+                                blockset->setEx5(cp4);
+                                blockset->setType("PentaHor");
+                            }
+                        }
+                        match->addObject(blockset);
                         x += getMatchHor(exObj)->count();
                         CCLog("Hor Object on GID %i has match", exObj->getGid());
                     }
@@ -450,15 +468,31 @@ CCArray *TakasuPoppo::matchList() {
                 if (exObj->getCoordination().x == coor.x &&
                     exObj->getCoordination().y == coor.y) {
                     if (TakasuPoppo::getMatchVer(exObj)->count() >= 2) {
-                        match->addObjectsFromArray(TakasuPoppo::getMatchVer(exObj));
+                        //match->addObjectsFromArray(TakasuPoppo::getMatchVer(exObj));
+                        
+                        TPObjectExtension* cp1 = (TPObjectExtension*)getMatchVer(exObj)->objectAtIndex(0);
+                        TPObjectExtension* cp2 = (TPObjectExtension*)getMatchVer(exObj)->objectAtIndex(1);
+                        TPBlockSet *blockset = new TPBlockSet(exObj, cp1, cp2, NULL, NULL, "TrioTop", exObj->getCoordination().x , exObj->getCoordination().y);
+                        if(TakasuPoppo::getMatchVer(exObj)->count() == 3)
+                        {
+                            TPObjectExtension* cp3 = (TPObjectExtension*)getMatchVer(exObj)->objectAtIndex(2);
+                            blockset->setEx4(cp3);
+                            blockset->setType("QuadTop");
+                            if(TakasuPoppo::getMatchVer(exObj)->count() == 4)
+                            {
+                                TPObjectExtension* cp4 = (TPObjectExtension*)getMatchVer(exObj)->objectAtIndex(2);
+                                blockset->setEx5(cp4);
+                                blockset->setType("PentaVer");
+                            }
+                        }
+                        match->addObject(blockset);
+
                         y += getMatchVer(exObj)->count();
                         CCLog("Ver Object on GID %i has match", exObj->getGid());
                     }
                 }
             }
         }
-    
-    
     return match;
 }
 
@@ -466,14 +500,13 @@ CCArray *TakasuPoppo::getMatchHor(TPObjectExtension *exObj) {
     CCArray *matches = new CCArray;
     int colNum= exObj->getCoordination().x;
     for (int ct = 1; colNum + ct < 7; ct++) {
+        CCLOG("Colum .....%d",colNum);
         CCPoint coor = ccp(colNum + ct, exObj->getCoordination().y);
         int gid = layer->tileGIDAt(coor);
-        int gidToIndex = gid - 1;
+        int gidToIndex = gid-1;
         CCObject *object = colorArray->objectAtIndex(gidToIndex);
         TPObjectExtension *checkObj = dynamic_cast<TPObjectExtension*>(object);
-        if (checkObj->getCoordination().x == coor.x &&
-            checkObj->getCoordination().y == coor.y &&
-            checkObj->getID() == exObj->getID()) {
+        if (checkObj->getID() == exObj->getID()) {
             matches->addObject(checkObj);
             //CCLog("CheckObj Gid: %i, CID: %i ", checkObj->getGid(), checkObj->getID());
         }
