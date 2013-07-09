@@ -26,6 +26,9 @@ private:
     CCArray *toDestroyArray;
     CCArray *pickedArray;
     
+    TPObjectExtension *movedSprite;
+    TPObjectExtension *swapedSprite;
+    
     CCArray *debugTilesArray;
     CCArray *testArray;
     
@@ -94,7 +97,7 @@ public:
     bool matchPatternHorTwo(CCPoint coor, CCArray pointsArray);
 
     
-    CCArray *matchList();
+    void matchList();
     CCArray *getMatchHor(TPObjectExtension *exObj);
     CCArray *getMatchVer(TPObjectExtension *exObj);
     
@@ -108,11 +111,18 @@ public:
     void swapTilesReturn(TPObjectExtension *exObj, TPObjectExtension *swpObj);
     void swapColorID(TPObjectExtension *exObj, TPObjectExtension *swpObj);
     
+    void swapTilesMoved();
+    void swapTilesBack();
+    
     void swipedUp(TPObjectExtension *exObj);
     void swipedDown(TPObjectExtension *exObj);
     void swipedLeft(TPObjectExtension *exObj);
     void swipedRight(TPObjectExtension *exObj);
     
+    void moveBlock(TPObjectExtension *exObj1);
+    void moveAnotherBlock(TPObjectExtension *exObj2);
+    
+    void testFunc(CCObject *obj1, CCObject *obj2);
     //TPParticles
     void popParticles(CCPoint position);
     void remoteParticles();

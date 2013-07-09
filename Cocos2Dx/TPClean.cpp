@@ -39,126 +39,31 @@ void TakasuPoppo::cleanBlocks() {
                 TakasuPoppo::popParticles(blockSet->getEx5()->getPosition());
                 blockSet->getEx5()->setID(7);
             }
+            toDestroyArray->removeObject(blockSet);
         }
     }
 }
 
 void TakasuPoppo::afterClean() {
     CCObject *object;
-    CCARRAY_FOREACH(toDestroyArray, object){
-        TPBlockSet *blockSet = dynamic_cast<TPBlockSet*>(object);
-        if (blockSet->getType() == "TrioRight" ||
-            blockSet->getType() == "TrioLeft" ||
-            blockSet->getType() == "TrioHor" ) {
-            CCPoint coor1 = blockSet->getEx1()->getCoordination();
-            CCPoint coor2 = blockSet->getEx2()->getCoordination();
-            CCPoint coor3 = blockSet->getEx3()->getCoordination();
-            CCObject *blockObject;
-            CCARRAY_FOREACH_REVERSE(colorArray, blockObject) {
-                TPObjectExtension *exObj = dynamic_cast<TPObjectExtension*>(blockObject);
-                if ((exObj->getCoordination().x == coor1.x && exObj->getCoordination().y < coor1.y) ||
-                    (exObj->getCoordination().x == coor2.x && exObj->getCoordination().y < coor2.y) ||
-                    (exObj->getCoordination().x == coor3.x && exObj->getCoordination().y < coor3.y)) {
-                    CCLog("ExObj ID %i", exObj->getGid());
-                    CCSprite *toMoveSprite = exObj->getSprite();
-                    CCObject *bottomObject = colorArray->objectAtIndex(exObj->getGid() + 6);
-                    TPObjectExtension *bottomEx = dynamic_cast<TPObjectExtension*>(bottomObject);
-                    toMoveSprite->runAction(CCMoveTo::create(0.3, bottomEx->getPosition()));
-                    TakasuPoppo::swapColorID(exObj, bottomEx);
+    CCARRAY_FOREACH_REVERSE(colorArray, object) {
+        TPObjectExtension *exObj = dynamic_cast<TPObjectExtension*>(object);
+        if (exObj->getID() == 7 && exObj->getCoordination().y != 0) {
+            CCObject *object2;
+            CCARRAY_FOREACH_REVERSE(colorArray, object2) {
+                TPObjectExtension *exObj2 = dynamic_cast<TPObjectExtension*>(object2);
+                if (exObj2->getCoordination().x == exObj->getCoordination().x &&
+                    exObj2->getCoordination().y < exObj->getCoordination().y &&
+                    exObj2->getID() != 7) {
+                    int blocksAway = exObj->getCoordination().y - exObj2->getCoordination().y;
+                    CCPoint movePos = exObj->getPosition();
+                    CCSprite *toMoveSprite =  exObj2->getSprite();
+                    toMoveSprite->runAction(CCMoveTo::create(0.1 * blocksAway, movePos));
+                    TakasuPoppo::swapColorID(exObj, exObj2);
+                    break;
                 }
             }
         }
-        if (blockSet->getType() == "TrioTop" ||
-            blockSet->getType() == "TrioBottom" ||
-            blockSet->getType() == "TrioVer") {
-            CCPoint coor1 = blockSet->getEx1()->getCoordination();
-            CCObject *blockObject;
-            CCARRAY_FOREACH_REVERSE(colorArray, blockObject) {
-                TPObjectExtension *exObj = dynamic_cast<TPObjectExtension*>(blockObject);
-                if (exObj->getCoordination().x == coor1.x && exObj->getCoordination().y < coor1.y) {
-                    CCSprite *toMoveSprite = exObj->getSprite();
-                    CCObject *bottomObject = colorArray->objectAtIndex(exObj->getGid() + 20);
-                    TPObjectExtension *bottomEx = dynamic_cast<TPObjectExtension*>(bottomObject);
-                    toMoveSprite->runAction(CCMoveTo::create(0.3, bottomEx->getPosition()));
-                    TakasuPoppo::swapColorID(exObj, bottomEx);
-                }
-            }
-        }
-        if (blockSet->getType() == "QuadRight" ||
-            blockSet->getType() == "QuadLeft") {
-            CCPoint coor1 = blockSet->getEx1()->getCoordination();
-            CCPoint coor2 = blockSet->getEx2()->getCoordination();
-            CCPoint coor3 = blockSet->getEx3()->getCoordination();
-            CCPoint coor4 = blockSet->getEx4()->getCoordination();
-            CCObject *blockObject;
-            CCARRAY_FOREACH_REVERSE(colorArray, blockObject) {
-                TPObjectExtension *exObj = dynamic_cast<TPObjectExtension*>(blockObject);
-                if ((exObj->getCoordination().x == coor1.x && exObj->getCoordination().y < coor1.y) ||
-                    (exObj->getCoordination().x == coor2.x && exObj->getCoordination().y < coor2.y) ||
-                    (exObj->getCoordination().x == coor3.x && exObj->getCoordination().y < coor3.y) ||
-                    (exObj->getCoordination().x == coor4.x && exObj->getCoordination().y < coor4.y)) {
-                    CCLog("ExObj ID %i", exObj->getGid());
-                    CCSprite *toMoveSprite = exObj->getSprite();
-                    CCObject *bottomObject = colorArray->objectAtIndex(exObj->getGid() + 6);
-                    TPObjectExtension *bottomEx = dynamic_cast<TPObjectExtension*>(bottomObject);
-                    toMoveSprite->runAction(CCMoveTo::create(0.3, bottomEx->getPosition()));
-                    TakasuPoppo::swapColorID(exObj, bottomEx);
-                }
-            }
-        }
-        if (blockSet->getType() == "QuadTop" ||
-            blockSet->getType() == "QuadBottom") {
-            CCPoint coor1 = blockSet->getEx1()->getCoordination();
-            CCObject *blockObject;
-            CCARRAY_FOREACH_REVERSE(colorArray, blockObject) {
-                TPObjectExtension *exObj = dynamic_cast<TPObjectExtension*>(blockObject);
-                if (exObj->getCoordination().x == coor1.x && exObj->getCoordination().y < coor1.y) {
-                    CCSprite *toMoveSprite = exObj->getSprite();
-                    CCObject *bottomObject = colorArray->objectAtIndex(exObj->getGid() + 27);
-                    TPObjectExtension *bottomEx = dynamic_cast<TPObjectExtension*>(bottomObject);
-                    toMoveSprite->runAction(CCMoveTo::create(0.3, bottomEx->getPosition()));
-                    TakasuPoppo::swapColorID(exObj, bottomEx);
-                }
-            }
-        }
-        if (blockSet->getType() == "PentaHor") {
-            CCPoint coor1 = blockSet->getEx1()->getCoordination();
-            CCPoint coor2 = blockSet->getEx2()->getCoordination();
-            CCPoint coor3 = blockSet->getEx3()->getCoordination();
-            CCPoint coor4 = blockSet->getEx4()->getCoordination();
-            CCPoint coor5 = blockSet->getEx5()->getCoordination();
-            CCObject *blockObject;
-            CCARRAY_FOREACH_REVERSE(colorArray, blockObject) {
-                TPObjectExtension *exObj = dynamic_cast<TPObjectExtension*>(blockObject);
-                if ((exObj->getCoordination().x == coor1.x && exObj->getCoordination().y < coor1.y) ||
-                    (exObj->getCoordination().x == coor2.x && exObj->getCoordination().y < coor2.y) ||
-                    (exObj->getCoordination().x == coor3.x && exObj->getCoordination().y < coor3.y) ||
-                    (exObj->getCoordination().x == coor4.x && exObj->getCoordination().y < coor4.y) ||
-                    (exObj->getCoordination().x == coor5.x && exObj->getCoordination().y < coor5.y)) {
-                    CCLog("ExObj ID %i", exObj->getGid());
-                    CCSprite *toMoveSprite = exObj->getSprite();
-                    CCObject *bottomObject = colorArray->objectAtIndex(exObj->getGid() + 6);
-                    TPObjectExtension *bottomEx = dynamic_cast<TPObjectExtension*>(bottomObject);
-                    toMoveSprite->runAction(CCMoveTo::create(0.3, bottomEx->getPosition()));
-                    TakasuPoppo::swapColorID(exObj, bottomEx);
-                }
-            }
-        }
-        if (blockSet->getType() == "PentaVer") {
-            CCPoint coor1 = blockSet->getEx1()->getCoordination();
-            CCObject *blockObject;
-            CCARRAY_FOREACH_REVERSE(colorArray, blockObject) {
-                TPObjectExtension *exObj = dynamic_cast<TPObjectExtension*>(blockObject);
-                if (exObj->getCoordination().x == coor1.x && exObj->getCoordination().y < coor1.y) {
-                    CCSprite *toMoveSprite = exObj->getSprite();
-                    CCObject *bottomObject = colorArray->objectAtIndex(exObj->getGid() + 34);
-                    TPObjectExtension *bottomEx = dynamic_cast<TPObjectExtension*>(bottomObject);
-                    toMoveSprite->runAction(CCMoveTo::create(0.3, bottomEx->getPosition()));
-                    TakasuPoppo::swapColorID(exObj, bottomEx);
-                }
-            }
-        }
-        toDestroyArray->removeObject(blockSet);
-    }
+    }    
 }
 

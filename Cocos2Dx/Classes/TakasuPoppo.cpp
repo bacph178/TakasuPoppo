@@ -38,10 +38,6 @@ bool TakasuPoppo::init() {
     CCSprite *background = CCSprite::create("PuzzleBackgroud3.png");
     background->setPosition(ccp(winSize.width/2, winSize.height/2));
     this->addChild(background, -2, -2);
-//    float x = 0;
-//    float y = 0;
-//    float z = 0;
-//    this->getCamera()->setCenterXYZ(x, y + 0.000000005, z);
     TakasuPoppo::lookForMatches();
 
     TakasuPoppo::setupDebugButton();

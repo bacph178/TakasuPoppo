@@ -1,3 +1,6 @@
+//  Created by MinhNT on 13/05/16.
+//  Copyright FRAMGIA 2013年. All rights reserved.
+//
 #include "TPObjectExtension.h"
 
 using namespace cocos2d;

@@ -1,3 +1,6 @@
+//  Created by MinhNT on 13/05/16.
+//  Copyright FRAMGIA 2013年. All rights reserved.
+//
 #ifndef Cocos2Dx_TPObjectExtension_h
 #define Cocos2Dx_TPObjectExtension_h
 #include "cocos2d.h"
