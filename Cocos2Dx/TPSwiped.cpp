@@ -44,23 +44,28 @@ void TakasuPoppo::swipedDown(TPObjectExtension *exObj) {
 #pragma mark Tile Interactions
 void TakasuPoppo::swapTilesCheck(TPObjectExtension *exObj, int swpGid) {
     TPObjectExtension *swpObj = dynamic_cast<TPObjectExtension*>(colorArray->objectAtIndex(swpGid- 1));
-    TakasuPoppo::swapColorID(exObj, swpObj);
-    TakasuPoppo::matchList();
-    movedSprite = exObj;
-    swapedSprite = swpObj;
-    if (toDestroyArray->count() != 0) {
-        this->runAction(CCSequence::create(CCCallFunc::create(this, callfunc_selector(TakasuPoppo::swapTilesMoved)),
-                                           CCDelayTime::create(0.1),
-                                           CCCallFunc::create(this, callfunc_selector(TakasuPoppo::cleanBlocks)),
-                                           CCDelayTime::create(0.1),
-                                           CCCallFunc::create(this, callfunc_selector(TakasuPoppo::afterClean)),
-                                           CCDelayTime::create(0.1),
-                                           CCCallFunc::create(this, callfunc_selector(TakasuPoppo::checkEmpty)),
-                                           NULL));
-    }
-    else {
+    if (exObj->getControlTrigger() != false && swpObj->getControlTrigger() != false &&
+        exObj->getSprite()->numberOfRunningActions() == 0 && swpObj->getSprite()->numberOfRunningActions() == 0) {
         TakasuPoppo::swapColorID(exObj, swpObj);
-        TakasuPoppo::swapTilesBack();
+        TakasuPoppo::matchList();
+        movedSprite = exObj;
+        swapedSprite = swpObj;
+        if (toDestroyArray->count() != 0) {
+            controlable = false;
+            this->runAction(CCSequence::create(
+                                               CCCallFunc::create(this, callfunc_selector(TakasuPoppo::checkPosition)),
+                                               CCDelayTime::create(0.1),
+                                               CCCallFunc::create(this, callfunc_selector(TakasuPoppo::cleanBlocks)),
+                                               CCDelayTime::create(0.1),
+                                               CCCallFunc::create(this, callfunc_selector(TakasuPoppo::afterClean)),
+                                               CCDelayTime::create(0.1),
+                                               CCCallFunc::create(this, callfunc_selector(TakasuPoppo::checkEmpty)),
+                                               NULL));
+        }
+        else {
+            TakasuPoppo::swapColorID(exObj, swpObj);
+            TakasuPoppo::swapTilesBack();
+        }
     }
 }
 
@@ -76,53 +81,36 @@ void TakasuPoppo::swapColorID(TPObjectExtension *exObj, TPObjectExtension *swpOb
     swpObj->setSprite(moveSprite);
 }
 
-void TakasuPoppo::swapTilesMoving(TPObjectExtension *exObj, TPObjectExtension *swpObj) {
-    CCSprite *sprite = (CCSprite*)exObj->getSprite();
-    CCSprite *swpSprite = (CCSprite*)swpObj->getSprite();
-    sprite->runAction(CCMoveTo::create(0.1, swpObj->getPosition()));
-    swpSprite->runAction(CCSequence::create(CCMoveTo::create(0.1, exObj->getPosition()),
-                                            CCCallFunc::create(this, callfunc_selector(TakasuPoppo::cleanBlocks)),
-                                            CCCallFunc::create(this, callfunc_selector(TakasuPoppo::afterClean)),
-                                            CCCallFunc::create(this, callfunc_selector(TakasuPoppo::checkEmpty)), NULL));
-    
-    TakasuPoppo::swapColorID(exObj, swpObj);
-    if (gridOn)TakasuPoppo::refresh();
-}
-
-void TakasuPoppo::swapTilesReturn(TPObjectExtension *exObj, TPObjectExtension *swpObj) {
-    CCSprite *sprite = (CCSprite*)exObj->getSprite();
-    CCSprite *swpSprite = (CCSprite*)swpObj->getSprite();
-    sprite->runAction(CCSequence::create(CCMoveTo::create(0.1, swpObj->getPosition()),
-                                         CCMoveTo::create(0.1, exObj->getPosition()), NULL));
-    swpSprite->runAction(CCSequence::create(CCMoveTo::create(0.1, exObj->getPosition()),
-                                            CCMoveTo::create(0.1, swpObj->getPosition()), NULL));
-}
-
-void TakasuPoppo::swapTilesMoved() {
-    CCPoint moveDes = swapedSprite->getSprite()->getPosition();
-    CCPoint swapDes = movedSprite->getSprite()->getPosition();
-    swapedSprite->getSprite()->runAction(CCMoveTo::create(0.1, swapDes));
-    movedSprite->getSprite()->runAction(CCMoveTo::create(0.1, moveDes));
-}
-
 void TakasuPoppo::swapTilesBack() {
-    CCPoint moveDes = swapedSprite->getSprite()->getPosition();
-    CCPoint swapDes = movedSprite->getSprite()->getPosition();
-    movedSprite->getSprite()->runAction(CCSequence::create(CCMoveTo::create(0.1, moveDes),
-                                         CCMoveTo::create(0.1, swapDes), NULL));
-    swapedSprite->getSprite()->runAction(CCSequence::create(CCMoveTo::create(0.1, swapDes),
-                                            CCMoveTo::create(0.1, moveDes), NULL));
-}
-
-void TakasuPoppo::testFunc(CCObject *ex1, CCObject *ex2) {
-
-}
-
-void TakasuPoppo::moveBlock(TPObjectExtension *exObj1) {
-    exObj1->setControlTrigger(false);
+    CCPoint moveDes = swapedSprite->getPosition();
+    CCPoint swapDes = movedSprite->getPosition();
     
+    movedSprite->getSprite()->runAction(CCSequence::create(
+                    CCCallFuncND::create(this, callfuncND_selector(TakasuPoppo::switchControlable), (void*)movedSprite),
+                    CCMoveTo::create(0.1, moveDes),
+                    CCMoveTo::create(0.1, swapDes),
+                    CCCallFuncND::create(this, callfuncND_selector(TakasuPoppo::switchControlable), (void*)movedSprite), NULL));
+    
+    swapedSprite->getSprite()->runAction(CCSequence::create(
+                    CCCallFuncND::create(this, callfuncND_selector(TakasuPoppo::switchControlable), (void*)swapedSprite),
+                    CCMoveTo::create(0.1, swapDes),
+                    CCMoveTo::create(0.1, moveDes),
+                    CCCallFuncND::create(this, callfuncND_selector(TakasuPoppo::switchControlable), (void*)swapedSprite), NULL));
 }
 
-void TakasuPoppo::moveAnotherBlock(TPObjectExtension *exObj2) {
-    
+void TakasuPoppo::switchControlable(TPObjectExtension *exObj) {
+    bool controlable = exObj->getControlTrigger();
+    controlable = !controlable;
+}
+
+void TakasuPoppo::checkPosition() {
+    if (swapedSprite->getSprite()->getPosition().x != swapedSprite->getPosition().x ||
+        swapedSprite->getSprite()->getPosition().y != swapedSprite->getPosition().y ) {
+        swapedSprite->getSprite()->runAction(CCMoveTo::create(0.1, swapedSprite->getPosition()));
+    }
+    if (movedSprite->getSprite()->getPosition().x != movedSprite->getPosition().x ||
+        movedSprite->getSprite()->getPosition().y != movedSprite->getPosition().y ) {
+        movedSprite->getSprite()->runAction(CCMoveTo::create(0.1, movedSprite->getPosition()));
+    }
+
 }

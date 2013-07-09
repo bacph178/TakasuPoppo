@@ -36,12 +36,16 @@ private:
     bool swiping;
     bool swipeRecognized;
     
+    bool controlable;
+    
     bool swipeRight;
     bool swipeLeft;
     bool swipeUp;
     bool swipeDown;
     
     bool gridOn = false;
+    
+    
 public:
     //TakasuPoppo
     static cocos2d::CCScene* scene();
@@ -64,29 +68,9 @@ public:
     
     void addBlocksToArray();
     void setValuesForExObj(TPObjectExtension *exObj, int colorID, int gid, CCSprite *sprite, CCPoint position, CCPoint coordination, bool trigger);
-    void checkAndAddToRemove();
-    void removeObjectsFromDestroyArray();
-    void onRemoveMoveTiles(TPObjectExtension *exObj);
     
     //TPMatch
     bool isTileMatched(int gid, int typeID);
-    bool isBlockMatched(int gid, int typeID);
-    
-    bool isRightTriMatch(int gid, int typeID);
-    bool isLeftTriMatch(int gid, int typeID);
-    bool isTopTriMatch(int gid, int typeID);
-    bool isBottomTriMatch(int gid, int typeID);
-    
-    bool isLeftQuadMatch(int gid, int typeID);
-    bool isRightQuadMatch(int gid, int typeID);
-    bool isUpQuadMatch(int gid, int typeID);
-    bool isDownQuadMatch(int gid, int typeID);
-    
-    bool isMidHorMatch(int gid, int typeID);
-    bool isMidVerMatch(int gid, int typeID);
-    
-    bool isPentaHorMatch(int gid, int typeID);
-    bool isPentaVerMatch(int gid, int typeID);
     
     void lookForMatches();
     TPObjectExtension *coorToExObj(CCPoint);
@@ -106,23 +90,20 @@ public:
     void afterClean();
     
     //TPSwiped
-    void swapTilesCheck(TPObjectExtension *exObj, int swpGid);
-    void swapTilesMoving(TPObjectExtension *exObj, TPObjectExtension *swpObj);
-    void swapTilesReturn(TPObjectExtension *exObj, TPObjectExtension *swpObj);
-    void swapColorID(TPObjectExtension *exObj, TPObjectExtension *swpObj);
-    
-    void swapTilesMoved();
-    void swapTilesBack();
-    
     void swipedUp(TPObjectExtension *exObj);
     void swipedDown(TPObjectExtension *exObj);
     void swipedLeft(TPObjectExtension *exObj);
     void swipedRight(TPObjectExtension *exObj);
     
-    void moveBlock(TPObjectExtension *exObj1);
-    void moveAnotherBlock(TPObjectExtension *exObj2);
+    void swapTilesCheck(TPObjectExtension *exObj, int swpGid);
     
-    void testFunc(CCObject *obj1, CCObject *obj2);
+    void swapColorID(TPObjectExtension *exObj, TPObjectExtension *swpObj);
+    void switchControlable(TPObjectExtension *exObj);
+
+    void checkPosition();
+    void swapTilesBack();
+    
+    
     //TPParticles
     void popParticles(CCPoint position);
     void remoteParticles();

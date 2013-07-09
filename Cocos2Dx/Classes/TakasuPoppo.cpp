@@ -34,6 +34,7 @@ bool TakasuPoppo::init() {
     TakasuPoppo::addTileMap();
     TakasuPoppo::matchList();
     
+    controlable = true;
     
     CCSprite *background = CCSprite::create("PuzzleBackgroud3.png");
     background->setPosition(ccp(winSize.width/2, winSize.height/2));
@@ -48,41 +49,43 @@ bool TakasuPoppo::init() {
 }
 
 void TakasuPoppo::update(float dt) {
-    if (swipeRight) {
-        CCObject *object = NULL;
-        CCARRAY_FOREACH(pickedArray, object) {
-            TPObjectExtension *exObject = dynamic_cast<TPObjectExtension*>(object);
-            TakasuPoppo::swipedRight(exObject);
-            swipeRight = false;
-            pickedArray->removeObject(object);
-        }      
-    }
-    if (swipeLeft) {
-        CCObject *object = NULL;
-        CCARRAY_FOREACH(pickedArray, object) {
-            TPObjectExtension *exObject = dynamic_cast<TPObjectExtension*>(object);
-            TakasuPoppo::swipedLeft(exObject);
-            swipeLeft = false;
-            pickedArray->removeObject(object);
+    if (controlable) {
+        if (swipeRight) {
+            CCObject *object = NULL;
+            CCARRAY_FOREACH(pickedArray, object) {
+                TPObjectExtension *exObject = dynamic_cast<TPObjectExtension*>(object);
+                TakasuPoppo::swipedRight(exObject);
+                swipeRight = false;
+                pickedArray->removeObject(object);
+            }
         }
-    }
-    if (swipeUp) {
-        CCObject *object = NULL;
-        CCARRAY_FOREACH(pickedArray, object) {
-            TPObjectExtension *exObject = dynamic_cast<TPObjectExtension*>(object);
-            TakasuPoppo::swipedUp(exObject);
-            swipeUp = false;
-            pickedArray->removeObject(object);
+        if (swipeLeft) {
+            CCObject *object = NULL;
+            CCARRAY_FOREACH(pickedArray, object) {
+                TPObjectExtension *exObject = dynamic_cast<TPObjectExtension*>(object);
+                TakasuPoppo::swipedLeft(exObject);
+                swipeLeft = false;
+                pickedArray->removeObject(object);
+            }
         }
-
-    }
-    if (swipeDown) {
-        CCObject *object = NULL;
-        CCARRAY_FOREACH(pickedArray, object) {
-            TPObjectExtension *exObject = dynamic_cast<TPObjectExtension*>(object);
-            TakasuPoppo::swipedDown(exObject);
-            swipeDown = false;
-            pickedArray->removeObject(object);
+        if (swipeUp) {
+            CCObject *object = NULL;
+            CCARRAY_FOREACH(pickedArray, object) {
+                TPObjectExtension *exObject = dynamic_cast<TPObjectExtension*>(object);
+                TakasuPoppo::swipedUp(exObject);
+                swipeUp = false;
+                pickedArray->removeObject(object);
+            }
+            
+        }
+        if (swipeDown) {
+            CCObject *object = NULL;
+            CCARRAY_FOREACH(pickedArray, object) {
+                TPObjectExtension *exObject = dynamic_cast<TPObjectExtension*>(object);
+                TakasuPoppo::swipedDown(exObject);
+                swipeDown = false;
+                pickedArray->removeObject(object);
+            }
         }
     }
 }

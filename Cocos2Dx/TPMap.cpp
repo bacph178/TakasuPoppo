@@ -82,6 +82,7 @@ void TakasuPoppo::checkEmpty() {
             generateRandomBlock(exObj);
         }
     }
+    controlable = true;
 }
 
 void TakasuPoppo::generateRandomBlock(TPObjectExtension *exObj) {
@@ -125,36 +126,4 @@ void TakasuPoppo::setValuesForExObj(TPObjectExtension *exObj, int colorID, int g
     exObj->setControlTrigger(trigger);
     CCSprite *toMoveSprite = exObj->getSprite();
     toMoveSprite->runAction(CCMoveTo::create(0.1, exObj->getPosition()));
-}
-
-void TakasuPoppo::checkAndAddToRemove() {
-    CCObject *object;
-    CCARRAY_FOREACH(colorArray, object) {
-        TPObjectExtension *exObj = dynamic_cast<TPObjectExtension*>(object);
-        int gid = exObj->getGid();
-        int id = exObj->getID();
-        if (TakasuPoppo::isBlockMatched(gid, id)) {
-            toDestroyArray->addObject(exObj);
-        }
-    }
-}
-
-void TakasuPoppo::removeObjectsFromDestroyArray() {
-    if (toDestroyArray->count() > 0) {
-        CCObject *object;
-        CCARRAY_FOREACH(toDestroyArray, object) {
-            TPObjectExtension *exObj = dynamic_cast<TPObjectExtension*>(object);
-            CCSprite *toRemoveSprite = exObj->getSprite();
-            exObj->setID(7);
-            exObj->setSprite(NULL);
-            if (toRemoveSprite)toRemoveSprite->removeFromParentAndCleanup(true);
-            TakasuPoppo::onRemoveMoveTiles(exObj);
-            if (gridOn)TakasuPoppo::refresh();
-        }
-    }
-}
-
-void TakasuPoppo::onRemoveMoveTiles(TPObjectExtension *exObj) {
-    
-    
 }
