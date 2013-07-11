@@ -43,24 +43,18 @@ void TakasuPoppo::swipedDown(TPObjectExtension *exObj) {
 
 #pragma mark Tile Interactions
 void TakasuPoppo::swapTilesCheck(TPObjectExtension *exObj, int swpGid) {
-    TPObjectExtension *swpObj = dynamic_cast<TPObjectExtension*>(colorArray->objectAtIndex(swpGid- 1));
+    TakasuPoppo::lookForMatches();
+    TPObjectExtension *swpObj = dynamic_cast<TPObjectExtension*>(colorArray->objectAtIndex(swpGid- 1)); //Out of range error
     if (exObj->getControlTrigger() != false && swpObj->getControlTrigger() != false &&
-        exObj->getSprite()->numberOfRunningActions() == 0 && swpObj->getSprite()->numberOfRunningActions() == 0) {
+        exObj->getID() != 7 && swpObj->getID() != 7) {
         TakasuPoppo::swapColorID(exObj, swpObj);
-        TakasuPoppo::matchList();
         movedSprite = exObj;
         swapedSprite = swpObj;
-        if (toDestroyArray->count() != 0) {
-            controlable = false;
-            this->runAction(CCSequence::create(
-                                               CCCallFunc::create(this, callfunc_selector(TakasuPoppo::checkPosition)),
-                                               CCDelayTime::create(0.1),
-                                               CCCallFunc::create(this, callfunc_selector(TakasuPoppo::cleanBlocks)),
-                                               CCDelayTime::create(0.1),
-                                               CCCallFunc::create(this, callfunc_selector(TakasuPoppo::afterClean)),
-                                               CCDelayTime::create(0.1),
-                                               CCCallFunc::create(this, callfunc_selector(TakasuPoppo::checkEmpty)),
-                                               NULL));
+        if (TakasuPoppo::matchAble(swpObj->getCoordination(), swpObj->getID()) == true ||
+            TakasuPoppo::matchAble(exObj->getCoordination(), exObj->getID()) == true) {
+            moveCounter = 0;
+            this->schedule(schedule_selector(TakasuPoppo::movingBoolSwitch));
+            TakasuPoppo::checkPosition();
         }
         else {
             TakasuPoppo::swapColorID(exObj, swpObj);
@@ -104,6 +98,16 @@ void TakasuPoppo::switchControlable(TPObjectExtension *exObj) {
 }
 
 void TakasuPoppo::checkPosition() {
+//    CCObject *object;
+//    CCARRAY_FOREACH(colorArray, object) {
+//        TPObjectExtension *exObj = dynamic_cast<TPObjectExtension*>(object);
+//        if (exObj->getSprite() != NULL &&
+//           (exObj->getSprite()->getPosition().x != exObj->getPosition().x ||
+//            exObj->getSprite()->getPosition().y != exObj->getPosition().y) ) {
+//            exObj->getSprite()->runAction(CCMoveTo::create(0.1, exObj->getPosition()));
+//        }
+//    }
+
     if (swapedSprite->getSprite()->getPosition().x != swapedSprite->getPosition().x ||
         swapedSprite->getSprite()->getPosition().y != swapedSprite->getPosition().y ) {
         swapedSprite->getSprite()->runAction(CCMoveTo::create(0.1, swapedSprite->getPosition()));

@@ -166,7 +166,8 @@ CCArray *TakasuPoppo::getMatchHor(TPObjectExtension *exObj) {
         int gidToIndex = gid - 1;
         CCObject *object = colorArray->objectAtIndex(gidToIndex);
         TPObjectExtension *checkObj = dynamic_cast<TPObjectExtension*>(object);
-        if (checkObj->getID() == exObj->getID()) {
+        if (checkObj->getID() == exObj->getID() &&
+            exObj->getID() != 7) {
             matches->addObject(checkObj);
         }
         else return matches;
@@ -183,7 +184,8 @@ CCArray *TakasuPoppo::getMatchVer(TPObjectExtension *exObj) {
         int gidToIndex = gid - 1;
         CCObject *object = colorArray->objectAtIndex(gidToIndex);
         TPObjectExtension *checkObj = dynamic_cast<TPObjectExtension*>(object);
-        if (checkObj->getID() == exObj->getID()) {
+        if (checkObj->getID() == exObj->getID() &&
+            exObj->getID() != 7) {
             matches->addObject(checkObj);
         }
         else return matches;
@@ -207,7 +209,7 @@ CCArray *TakasuPoppo::getMatchVer(TPObjectExtension *exObj) {
  |======================================|
  */
 
-void TakasuPoppo::lookForMatches() {
+int TakasuPoppo::lookForMatches() {
     int match = 0;
     for (int x = 0; x < 7; x++) {
         for (int y = 0; y < 7; y++) {
@@ -247,29 +249,41 @@ void TakasuPoppo::lookForMatches() {
             TPObjectExtension *tExObj = TakasuPoppo::coorToExObj(tPoint);
             TPObjectExtension *yExObj = TakasuPoppo::coorToExObj(yPoint);
             
+            //Horizontal 3 matches
             if (bExObj != NULL && bExObj->getID() == aExObj->getID()) {
                 if (TakasuPoppo::sumOfMatches(aExObj, bExObj, lExObj, sExObj, mExObj)) match++;
                 if (TakasuPoppo::sumOfMatches(aExObj, bExObj, gExObj, tExObj, dExObj)) match++;
             }
+            
+            //Vertical 3 matches
             if (eExObj != NULL && eExObj->getID() == aExObj->getID()) {
                 if (TakasuPoppo::sumOfMatches(aExObj, eExObj, iExObj, jExObj, yExObj)) match++;
                 if (TakasuPoppo::sumOfMatches(aExObj, eExObj, pExObj, qExObj, sExObj))match++;
             }
+            
+            //Middle Vertical Top
             if (hExObj != NULL && hExObj->getID() == aExObj->getID()) {
-                if (TakasuPoppo::sumOfMatches(aExObj, hExObj, dExObj, fExObj, NULL)) match++;
+                if (TakasuPoppo::sumOfMatches(aExObj, hExObj, lExObj, fExObj, NULL)) match++;
             }
+            
+            //Middle Vertical Bottom
             if (qExObj != NULL && qExObj->getID() == aExObj->getID()) {
                if (TakasuPoppo::sumOfMatches(aExObj, qExObj, pExObj, sExObj, NULL)) match++;
             }
+            
+            //Middle Horizontal Left
             if (mExObj != NULL && mExObj->getID() == aExObj->getID()) {
-                if (TakasuPoppo::sumOfMatches(aExObj, mExObj, dExObj, sExObj, NULL)) match++;
+                if (TakasuPoppo::sumOfMatches(aExObj, mExObj, lExObj, sExObj, NULL)) match++;
             }
+            
+            //Middle Horizontal Right
             if (cExObj != NULL && cExObj->getID() == aExObj->getID()) {
                 if (TakasuPoppo::sumOfMatches(aExObj, cExObj, fExObj, pExObj, NULL)) match++;
             }
         }
     }
     CCLog("There are %i possible matches", match);
+    return match;
 }
 
 bool TakasuPoppo::sumOfMatches(TPObjectExtension *exA, TPObjectExtension *exB,
@@ -302,4 +316,245 @@ TPObjectExtension *TakasuPoppo::coorToExObj(CCPoint coor) {
     return NULL;
 }
 
+/*
+ |======================================|
+ |           Check Matchable            |
+ |======================================|
+ |    |     -2  -1   0  +1  +2  +3      |
+ |----|---------------------------------|
+ | -3 |                                 |
+ | -2 |              h                  |
+ | -1 |              e                  |
+ |  0 |      m   n  [a]  b   c          |
+ | +1 |              o                  |
+ | +2 |              q                  |
+ |======================================|
+ */
 
+bool TakasuPoppo::matchAble(CCPoint coor, int type) {
+    int x = coor.x;
+    int y = coor.y;
+    
+    CCPoint bPoint = ccp(x + 1, y);
+    CCPoint cPoint = ccp(x + 2, y);
+    CCPoint ePoint = ccp(x, y - 1);
+    CCPoint hPoint = ccp(x, y - 2);
+    CCPoint mPoint = ccp(x - 2, y);
+    CCPoint nPoint = ccp(x - 1, y);
+    CCPoint oPoint = ccp(x, y + 1);
+    CCPoint qPoint = ccp(x, y + 2);
+    
+    TPObjectExtension *bExObj = TakasuPoppo::coorToExObj(bPoint);
+    TPObjectExtension *cExObj = TakasuPoppo::coorToExObj(cPoint);
+    TPObjectExtension *eExObj = TakasuPoppo::coorToExObj(ePoint);
+    TPObjectExtension *hExObj = TakasuPoppo::coorToExObj(hPoint);
+    TPObjectExtension *mExObj = TakasuPoppo::coorToExObj(mPoint);
+    TPObjectExtension *nExObj = TakasuPoppo::coorToExObj(nPoint);
+    TPObjectExtension *oExObj = TakasuPoppo::coorToExObj(oPoint);
+    TPObjectExtension *qExObj = TakasuPoppo::coorToExObj(qPoint);
+    
+    if (bExObj != NULL && bExObj->getID() == type &&
+        cExObj != NULL && cExObj->getID() == type) {
+        CCLog("b c combo with %i type", type);
+        return true;
+    }
+    
+    if (nExObj != NULL && nExObj->getID() == type &&
+        mExObj != NULL && mExObj->getID() == type) {
+        CCLog("n mcombo with %i type", type);
+        return true;
+    }
+    
+    if (nExObj != NULL && nExObj->getID() == type &&
+        bExObj != NULL && bExObj->getID() == type) {
+        CCLog("n b combo with %i type", type);
+        return true;
+    }
+    
+    if (eExObj != NULL && eExObj->getID() == type &&
+        hExObj != NULL && hExObj->getID() == type) {
+        CCLog("e h combo with %i type", type);
+        return true;
+    }
+    
+    if (oExObj != NULL && oExObj->getID() == type &&
+        qExObj != NULL && qExObj->getID() == type) {
+        CCLog("o q combo with %i type", type);
+        return true;
+    }
+    
+    if (oExObj != NULL && oExObj->getID() == type &&
+        eExObj != NULL && eExObj->getID() == type) {
+        CCLog("o e combo with %i type", type);
+        return true;
+    }
+    
+    return false;
+}
+
+/*
+ |======================================|
+ |        Smart Generation Chart        |
+ |======================================|
+ |    |     -2  -1   0  +1  +2  +3      |
+ |----|---------------------------------|
+ | -3 |                                 |
+ | -2 |              h                  |
+ | -1 |              e       g          |
+ |  0 |          n  [a]  b   c          |
+ | +1 |          s   o   p   t          |
+ | +2 |                                 |
+ |======================================|
+ */
+
+void TakasuPoppo::smartGeneration() {
+    if (TakasuPoppo::lookForMatches() > 7) {
+        CCObject *object;
+        CCARRAY_FOREACH_REVERSE(colorArray, object) {
+            TPObjectExtension *exObj = dynamic_cast<TPObjectExtension*>(object);
+            if (exObj->getID() == 7) {
+                TakasuPoppo::generateRandomBlock(exObj);
+            }
+        }
+        controlable = true;
+        return;
+    }
+    
+    if (TakasuPoppo::lookForMatches() <= 7) {
+        CCObject *object;
+        CCARRAY_FOREACH(colorArray, object) {
+            TPObjectExtension *exObj = dynamic_cast<TPObjectExtension*>(object);
+            int x = exObj->getCoordination().x;
+            int y = exObj->getCoordination().y;
+            CCPoint aPoint = ccp(x, y);
+            CCPoint bPoint = ccp(x + 1, y);
+            CCPoint cPoint = ccp(x + 2, y);
+            CCPoint ePoint = ccp(x, y - 1);
+            CCPoint gPoint = ccp(x + 2, y - 1);
+            CCPoint hPoint = ccp(x, y - 2);
+            CCPoint nPoint = ccp(x - 1, y);
+            CCPoint oPoint = ccp(x, y + 1);
+            CCPoint pPoint = ccp(x + 1, y + 1);
+            CCPoint sPoint = ccp(x - 1, y + 1);
+            CCPoint tPoint = ccp(x + 2, y + 1);
+            
+            TPObjectExtension *aExObj = TakasuPoppo::coorToExObj(aPoint);
+            TPObjectExtension *bExObj = TakasuPoppo::coorToExObj(bPoint);
+            TPObjectExtension *cExObj = TakasuPoppo::coorToExObj(cPoint);
+            TPObjectExtension *eExObj = TakasuPoppo::coorToExObj(ePoint);
+            TPObjectExtension *gExObj = TakasuPoppo::coorToExObj(gPoint);
+            TPObjectExtension *hExObj = TakasuPoppo::coorToExObj(hPoint);
+            TPObjectExtension *nExObj = TakasuPoppo::coorToExObj(nPoint);
+            TPObjectExtension *oExObj = TakasuPoppo::coorToExObj(oPoint);
+            TPObjectExtension *pExObj = TakasuPoppo::coorToExObj(pPoint);
+            TPObjectExtension *sExObj = TakasuPoppo::coorToExObj(sPoint);
+            TPObjectExtension *tExObj = TakasuPoppo::coorToExObj(tPoint);
+            
+            if (aExObj != NULL && aExObj->getID() == 7 &&
+                eExObj != NULL && eExObj->getID() == 7 &&
+                hExObj != NULL && hExObj->getID() == 7) {
+                
+                if (pExObj != NULL && pExObj->getID() != 7) {
+                    TakasuPoppo::generateBlock(aExObj, pExObj->getID());
+                    TakasuPoppo::generateBlock(eExObj, pExObj->getID());
+                    TakasuPoppo::generateRandomBlock(hExObj);
+                    controlable = true;
+                    CCLog("Ver P");
+                    return;
+                }
+                
+                if (sExObj != NULL && sExObj->getID() != 7) {
+                    TakasuPoppo::generateBlock(aExObj, sExObj->getID());
+                    TakasuPoppo::generateBlock(eExObj, sExObj->getID());
+                    TakasuPoppo::generateRandomBlock(hExObj);
+                    controlable = true;
+                    CCLog("Ver S");
+                    return;
+                }
+                
+                if (nExObj != NULL && nExObj->getID() != 7) {
+                    TakasuPoppo::generateBlock(hExObj, nExObj->getID());
+                    TakasuPoppo::generateBlock(eExObj, nExObj->getID());
+                    TakasuPoppo::generateRandomBlock(aExObj);
+                    controlable = true;
+                    CCLog("Ver N");
+                    return;
+                }
+                
+                if (bExObj != NULL && bExObj->getID() != 7) {
+                    TakasuPoppo::generateBlock(hExObj, bExObj->getID());
+                    TakasuPoppo::generateBlock(eExObj, bExObj->getID());
+                    TakasuPoppo::generateRandomBlock(aExObj);
+                    controlable = true;
+                    CCLog("Ver B");
+                    return;
+                }
+            }
+            
+            if (aExObj != NULL && aExObj->getID() == 7 &&
+                bExObj != NULL && bExObj->getID() == 7 &&
+                cExObj != NULL && cExObj->getID() == 7) {
+                if (oExObj != NULL && oExObj->getID() != 7) {
+                    TakasuPoppo::generateBlock(cExObj, oExObj->getID());
+                    TakasuPoppo::generateBlock(bExObj, oExObj->getID());
+                    TakasuPoppo::generateRandomBlock(aExObj);
+                    controlable = true;
+                    CCLog("Hor O");
+                    return;
+                }
+                
+                if (tExObj != NULL && tExObj->getID() != 7) {
+                    TakasuPoppo::generateBlock(aExObj, tExObj->getID());
+                    TakasuPoppo::generateBlock(bExObj, tExObj->getID());
+                    TakasuPoppo::generateRandomBlock(cExObj);
+                    controlable = true;
+                    CCLog("Hor T");
+                    return;
+                }
+                
+                if (eExObj != NULL && eExObj->getID() != 7) {
+                    TakasuPoppo::generateBlock(cExObj, eExObj->getID());
+                    TakasuPoppo::generateBlock(bExObj, eExObj->getID());
+                    TakasuPoppo::generateRandomBlock(aExObj);
+                    controlable = true;
+                    CCLog("Hor E");
+                    return;
+                }
+                
+                if (gExObj != NULL && gExObj->getID() != 7) {
+                    TakasuPoppo::generateBlock(aExObj, gExObj->getID());
+                    TakasuPoppo::generateBlock(bExObj, gExObj->getID());
+                    TakasuPoppo::generateRandomBlock(cExObj);
+                    controlable = true;
+                    CCLog("Hor G");
+                    return;
+                }
+            }
+            
+            if (aExObj != NULL && aExObj->getID() == 7 &&
+                bExObj != NULL && bExObj->getID() == 7) {
+                TakasuPoppo::generateRandomBlock(aExObj);
+                TakasuPoppo::generateRandomBlock(bExObj);
+                controlable = true;
+                CCLog("A B empty");
+                
+            }
+            
+            if (aExObj != NULL && aExObj->getID() == 7 &&
+                eExObj != NULL && eExObj->getID() == 7) {
+                TakasuPoppo::generateRandomBlock(aExObj);
+                TakasuPoppo::generateRandomBlock(eExObj);
+                controlable = true;
+                CCLog("A E Empty");
+            }
+            
+            if (aExObj != NULL && aExObj->getID() == 7) {
+                TakasuPoppo::generateRandomBlock(aExObj);
+                controlable = true;
+                CCLog("A Empty");
+            }
+        }
+        controlable = true;
+        return;
+    }
+}

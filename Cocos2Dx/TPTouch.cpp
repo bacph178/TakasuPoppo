@@ -14,9 +14,7 @@ void TakasuPoppo::ccTouchesBegan(CCSet *touches, CCEvent *event) {
     CCPoint touchLoc = this->getParent()->convertTouchToNodeSpace(touch);
     
     if (TakasuPoppo::touchPosValidation(touchLoc)) {
-        unsigned int gid = layer->tileGIDAt(TakasuPoppo::tileCoorForPosition(touchLoc));
-        CCObject *object = colorArray->objectAtIndex(gid - 1);
-        TPObjectExtension *exObject = dynamic_cast<TPObjectExtension*>(object);
+        TPObjectExtension *exObject = TakasuPoppo::coorToExObj(TakasuPoppo::tileCoorForPosition(touchLoc));
         if (exObject->getSprite()) {
             swipeRecognized = false;
             startSwipePoint = touchLoc;

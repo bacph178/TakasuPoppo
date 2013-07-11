@@ -23,32 +23,35 @@ CCScene* TakasuPoppo::scene() {
 bool TakasuPoppo::init() {
     srand(time(NULL));
     if (!CCLayer::init()) return false;
+    
     colorArray = new CCArray;
     toDestroyArray = new CCArray;
     pickedArray = new CCArray;
     
-    debugTilesArray = new CCArray;
-    testArray = new CCArray;
-    
     TakasuPoppo::addBlocksToArray();
     TakasuPoppo::addTileMap();
-    TakasuPoppo::matchList();
-    
-    controlable = true;
     
     CCSprite *background = CCSprite::create("PuzzleBackgroud3.png");
     background->setPosition(ccp(winSize.width/2, winSize.height/2));
     this->addChild(background, -2, -2);
-    TakasuPoppo::lookForMatches();
+    
+    controlable = true;
 
+    //===============================================================
+    debugTilesArray = new CCArray;
     TakasuPoppo::setupDebugButton();
-    TakasuPoppo::checkTile();
+    //===============================================================
+    
     this->setTouchEnabled(true);
+    
     this->scheduleUpdate();
+    this->schedule(schedule_selector(TakasuPoppo::fixedUpdate));
+    
     return true;
 }
 
 void TakasuPoppo::update(float dt) {
+    deltaTime = dt;
     if (controlable) {
         if (swipeRight) {
             CCObject *object = NULL;
@@ -87,5 +90,39 @@ void TakasuPoppo::update(float dt) {
                 pickedArray->removeObject(object);
             }
         }
+    }
+}
+
+void TakasuPoppo::fixedUpdate(float time) {
+    TakasuPoppo::matchList();
+    if (toDestroyArray->count() != 0 && inTheMove == false && inTheFall == false) {
+        TakasuPoppo::cleanBlocks();
+        this->runAction(CCSequence::create(CCCallFunc::create(this, callfunc_selector(TakasuPoppo::cleanBlocks)),
+                                           CCDelayTime::create(0.1),
+                                           CCCallFunc::create(this, callfunc_selector(TakasuPoppo::afterClean)),
+                                           CCDelayTime::create(0.1),
+                                           CCCallFunc::create(this, callfunc_selector(TakasuPoppo::smartGeneration)),
+                                           NULL));
+
+        this->schedule(schedule_selector(TakasuPoppo::fallingBoolSwitch));
+    }
+}
+
+void TakasuPoppo::fallingBoolSwitch(float dt) {
+    inTheFall = true;    
+    fallCounter += deltaTime;
+    if (fallCounter > 0.4) {
+        inTheFall = false;
+
+        this->unschedule(schedule_selector(TakasuPoppo::fallingBoolSwitch));
+    }
+}
+
+void TakasuPoppo::movingBoolSwitch(float dt) {
+    inTheMove = true;
+    moveCounter += deltaTime;
+    if (moveCounter > 0.1) {
+        inTheMove = false;
+        this->unschedule(schedule_selector(TakasuPoppo::movingBoolSwitch));
     }
 }

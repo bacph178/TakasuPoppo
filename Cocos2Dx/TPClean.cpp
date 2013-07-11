@@ -39,9 +39,10 @@ void TakasuPoppo::cleanBlocks() {
                 TakasuPoppo::popParticles(blockSet->getEx5()->getPosition());
                 blockSet->getEx5()->setID(7);
             }
-            toDestroyArray->removeObject(blockSet);
         }
     }
+    toDestroyArray->removeAllObjects();
+    toDestroyArray->retain();
 }
 
 void TakasuPoppo::afterClean() {

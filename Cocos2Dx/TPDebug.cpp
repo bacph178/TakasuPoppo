@@ -60,20 +60,6 @@ void TakasuPoppo::refresh() {
     TakasuPoppo::switchGrid();
 }
 
-void TakasuPoppo::checkTile() {
-//    CCObject* object;
-//    CCARRAY_FOREACH(toDestroyArray, object) {
-//        TPBlockSet *blockSet = dynamic_cast<TPBlockSet*>(object);
-//        CCLog("Object %i has %i blocks and is of %s type.", toDestroyArray->indexOfObject(blockSet), blockSet->getBlockCount(), blockSet->getType()->getCString());
-//        CCArray *toReadArray = new CCArray;
-//        toReadArray = blockSet->getBlocks();
-//        CCObject *another;
-//        CCARRAY_FOREACH(toReadArray, another) {
-//            TPObjectExtension *exObj = dynamic_cast<TPObjectExtension*>(another);
-//            CCLog("Block %i has gid %i and color %i", toReadArray->indexOfObject(exObj), exObj->getGid(), exObj->getID());
-//        }
-//    }
-}
 
 void TakasuPoppo::destroyAllBlocks() {
     CCObject *object;
