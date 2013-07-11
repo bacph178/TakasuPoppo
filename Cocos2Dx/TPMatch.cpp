@@ -408,7 +408,7 @@ bool TakasuPoppo::matchAble(CCPoint coor, int type) {
  */
 
 void TakasuPoppo::smartGeneration() {
-    if (TakasuPoppo::lookForMatches() > 7) {
+    if (TakasuPoppo::lookForMatches() > 4) {
         CCObject *object;
         CCARRAY_FOREACH_REVERSE(colorArray, object) {
             TPObjectExtension *exObj = dynamic_cast<TPObjectExtension*>(object);
@@ -420,7 +420,7 @@ void TakasuPoppo::smartGeneration() {
         return;
     }
     
-    if (TakasuPoppo::lookForMatches() <= 7) {
+    if (TakasuPoppo::lookForMatches() <= 4) {
         CCObject *object;
         CCARRAY_FOREACH(colorArray, object) {
             TPObjectExtension *exObj = dynamic_cast<TPObjectExtension*>(object);

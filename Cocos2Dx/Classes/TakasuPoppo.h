@@ -67,6 +67,8 @@ public:
     void movingBoolSwitch(float time);
     //Scheduler for falling time delay
     void fallingBoolSwitch(float time);
+    //Unschedule generation
+    void scheduleGenerate();
     
     #pragma mark Touch
     virtual void ccTouchesBegan(CCSet *touches, CCEvent *event);
