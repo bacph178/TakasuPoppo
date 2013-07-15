@@ -10,9 +10,10 @@
 #pragma mark Tile Functions
 
 void TakasuPoppo::addTileMap () {
-    map = CCTMXTiledMap::create("AnotherMap.tmx");
+    map = CCTMXTiledMap::create("90x90TileMap.tmx");
     this->addChild(map, -1, -1);
-    layer = map->layerNamed("Grids");
+    layer = map->layerNamed("Layer");
+    CCLog("Layer width %f and height %f", layer->getContentSize().width, layer->getContentSize().height);
     TakasuPoppo::createFixture();
     
     CCArray *pChildrenArray = map->getChildren();
@@ -58,10 +59,7 @@ void TakasuPoppo::createFixture() {
             CCObject *object = colorArray->objectAtIndex(m_gid - 1);
             TPObjectExtension *exObj = dynamic_cast<TPObjectExtension*>(object);
             TakasuPoppo::setValuesForExObj(exObj, randomTile, m_gid, randomTileSprite, tilePosition, tileCoordination, true);
-//            CCLog("Tile %i added - Color:%i; GID:%i, TileSprite:%s, TilePosition: X%i Y%i, Tile Coordination; X%i Y%i.",
-//                  colorArray->indexOfObject(exObj), randomTile, m_gid, spriteName, (int)tilePosition.x, (int)tilePosition.y,
-//                  (int)tileCoordination.x, (int)tileCoordination.y);
-            
+  
             this->addChild(randomTileSprite, 3, 300 + m_gid);
         }
     }
@@ -69,7 +67,8 @@ void TakasuPoppo::createFixture() {
 
 CCPoint TakasuPoppo::tileCoorForPosition(CCPoint position) {
     float x = position.x / map->getTileSize().width;
-    float y = ((winSize.height - position.y)/(map->getTileSize().height)) -1;
+    float y = ((winSize.height - (winSize.height - layer->getContentSize().height)) - position.y) /
+               (map->getTileSize().height);
     CCPoint transPos = ccp(floor(x), floor(y));
     return transPos;
 }
@@ -82,6 +81,7 @@ void TakasuPoppo::checkEmpty() {
             generateRandomBlock(exObj);
         }
     }
+    controlable = true;
 }
 
 void TakasuPoppo::generateRandomBlock(TPObjectExtension *exObj) {
@@ -101,10 +101,87 @@ void TakasuPoppo::generateRandomBlock(TPObjectExtension *exObj) {
     CCSprite *randomTileSprite = CCSprite::create(spriteName);
     randomTileSprite->setPosition(ccp(exObj->getPosition().x, exObj->getPosition().y + 70));
     randomTileSprite->runAction(CCMoveTo::create(0.3, exObj->getPosition()));
+    
     exObj->setSprite(randomTileSprite);
     exObj->setID(randomTile);
     this->addChild(randomTileSprite, 3, 300 + exObj->getGid());
 }
+
+void TakasuPoppo::generateBlock(TPObjectExtension *exObj1, int type) {
+    if (type == 0) {
+        CCSprite *randomTileSprite = CCSprite::create("Candy.png");
+        randomTileSprite->setPosition(ccp(exObj1->getPosition().x, exObj1->getPosition().y + 70));
+        randomTileSprite->runAction(CCMoveTo::create(0.3, exObj1->getPosition()));
+        exObj1->setSprite(randomTileSprite);
+        exObj1->setID(0);
+        this->addChild(randomTileSprite, 3, 300 + exObj1->getGid());
+        return;
+    }
+    if (type == 1) {
+        CCSprite *randomTileSprite = CCSprite::create("Candy2.png");
+        randomTileSprite->setPosition(ccp(exObj1->getPosition().x, exObj1->getPosition().y + 70));
+        randomTileSprite->runAction(CCMoveTo::create(0.3, exObj1->getPosition()));
+        exObj1->setSprite(randomTileSprite);
+        exObj1->setID(1);
+        this->addChild(randomTileSprite, 3, 300 + exObj1->getGid());
+        return;
+    }
+    if (type == 2) {
+        CCSprite *randomTileSprite = CCSprite::create("Candy3.png");
+        randomTileSprite->setPosition(ccp(exObj1->getPosition().x, exObj1->getPosition().y + 70));
+        randomTileSprite->runAction(CCMoveTo::create(0.3, exObj1->getPosition()));
+        exObj1->setSprite(randomTileSprite);
+        exObj1->setID(2);
+        this->addChild(randomTileSprite, 3, 300 + exObj1->getGid());
+        return;
+    }
+    if (type == 3) {
+        CCSprite *randomTileSprite = CCSprite::create("Candy4.png");
+        randomTileSprite->setPosition(ccp(exObj1->getPosition().x, exObj1->getPosition().y + 70));
+        randomTileSprite->runAction(CCMoveTo::create(0.3, exObj1->getPosition()));
+        exObj1->setSprite(randomTileSprite);
+        exObj1->setID(3);
+        this->addChild(randomTileSprite, 3, 300 + exObj1->getGid());
+        return;
+    }
+    if (type == 4) {
+        CCSprite *randomTileSprite = CCSprite::create("Candy5.png");
+        randomTileSprite->setPosition(ccp(exObj1->getPosition().x, exObj1->getPosition().y + 70));
+        randomTileSprite->runAction(CCMoveTo::create(0.3, exObj1->getPosition()));
+        exObj1->setSprite(randomTileSprite);
+        exObj1->setID(4);
+        this->addChild(randomTileSprite, 3, 300 + exObj1->getGid());
+        return;
+    }
+    if (type == 5) {
+        CCSprite *randomTileSprite = CCSprite::create("Candy6.png");
+        randomTileSprite->setPosition(ccp(exObj1->getPosition().x, exObj1->getPosition().y + 70));
+        randomTileSprite->runAction(CCMoveTo::create(0.3, exObj1->getPosition()));
+        exObj1->setSprite(randomTileSprite);
+        exObj1->setID(5);
+        this->addChild(randomTileSprite, 3, 300 + exObj1->getGid());
+        return;
+    }
+    if (type == 6) {
+        CCSprite *randomTileSprite = CCSprite::create("Candy7.png");
+        randomTileSprite->setPosition(ccp(exObj1->getPosition().x, exObj1->getPosition().y + 70));
+        randomTileSprite->runAction(CCMoveTo::create(0.3, exObj1->getPosition()));
+        exObj1->setSprite(randomTileSprite);
+        exObj1->setID(6);
+        this->addChild(randomTileSprite, 3, 300 + exObj1->getGid());
+        return;
+    }
+    if (type == 7) {
+        CCLog("Are you an idiot to assign an nothing to an empty block?");
+        generateRandomBlock(exObj1);
+        return;
+    }
+
+    CCLog("The stupidity knows no bound.");
+    generateRandomBlock(exObj1);
+    
+}
+
 
 #pragma mark Array
 
@@ -125,36 +202,4 @@ void TakasuPoppo::setValuesForExObj(TPObjectExtension *exObj, int colorID, int g
     exObj->setControlTrigger(trigger);
     CCSprite *toMoveSprite = exObj->getSprite();
     toMoveSprite->runAction(CCMoveTo::create(0.1, exObj->getPosition()));
-}
-
-void TakasuPoppo::checkAndAddToRemove() {
-    CCObject *object;
-    CCARRAY_FOREACH(colorArray, object) {
-        TPObjectExtension *exObj = dynamic_cast<TPObjectExtension*>(object);
-        int gid = exObj->getGid();
-        int id = exObj->getID();
-        if (TakasuPoppo::isBlockMatched(gid, id)) {
-            toDestroyArray->addObject(exObj);
-        }
-    }
-}
-
-void TakasuPoppo::removeObjectsFromDestroyArray() {
-    if (toDestroyArray->count() > 0) {
-        CCObject *object;
-        CCARRAY_FOREACH(toDestroyArray, object) {
-            TPObjectExtension *exObj = dynamic_cast<TPObjectExtension*>(object);
-            CCSprite *toRemoveSprite = exObj->getSprite();
-            exObj->setID(7);
-            exObj->setSprite(NULL);
-            if (toRemoveSprite)toRemoveSprite->removeFromParentAndCleanup(true);
-            TakasuPoppo::onRemoveMoveTiles(exObj);
-            if (gridOn)TakasuPoppo::refresh();
-        }
-    }
-}
-
-void TakasuPoppo::onRemoveMoveTiles(TPObjectExtension *exObj) {
-    
-    
 }

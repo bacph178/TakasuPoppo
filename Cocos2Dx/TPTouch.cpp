@@ -14,14 +14,17 @@ void TakasuPoppo::ccTouchesBegan(CCSet *touches, CCEvent *event) {
     CCPoint touchLoc = this->getParent()->convertTouchToNodeSpace(touch);
     
     if (TakasuPoppo::touchPosValidation(touchLoc)) {
-        unsigned int gid = layer->tileGIDAt(TakasuPoppo::tileCoorForPosition(touchLoc));
-        CCObject *object = colorArray->objectAtIndex(gid - 1);
-        TPObjectExtension *exObject = dynamic_cast<TPObjectExtension*>(object);
-        if (exObject->getSprite()) {
-            swipeRecognized = false;
-            startSwipePoint = touchLoc;
-            pickedArray->addObject(exObject);
-            spriteContained = true;
+        CCPoint point = TakasuPoppo::tileCoorForPosition(touchLoc);
+        CCLog("%f %f", point.x, point.y);
+        if (point.x >= 0 || point.x <= 6 ||
+            point.y >= 0 || point.y <= 6) {
+            TPObjectExtension *exObject = TakasuPoppo::coorToExObj(TakasuPoppo::tileCoorForPosition(touchLoc));
+            if (exObject->getSprite() != NULL && exObject->getID() != 7) {
+                swipeRecognized = false;
+                startSwipePoint = touchLoc;
+                pickedArray->addObject(exObject);
+                spriteContained = true;
+            }
         }
     }
     
@@ -52,19 +55,19 @@ void TakasuPoppo::ccTouchesMoved (CCSet *touches, CCEvent *event) {
             CCRect swipeUpRect = CCRectMake(startSwipePoint.x, startSwipePoint.y + (40), 20, 80);
             CCRect swipeDownRect = CCRectMake(startSwipePoint.x, startSwipePoint.y - (40), 20, 80);
             
-            if ((movingSwipePoint.x - startSwipePoint.x > 10) && touchRect.intersectsRect(swipeRightRect)) {
+            if ((movingSwipePoint.x - startSwipePoint.x > 8) && touchRect.intersectsRect(swipeRightRect)) {
                 swipeRecognized = true;
                 swipeRight = true;
             }
-            else if ((startSwipePoint.x - movingSwipePoint.x > 10) && touchRect.intersectsRect(swipeLeftRect)) {
+            else if ((startSwipePoint.x - movingSwipePoint.x > 8) && touchRect.intersectsRect(swipeLeftRect)) {
                 swipeRecognized = true;
                 swipeLeft = true;
             }
-            else if ((movingSwipePoint.y - startSwipePoint.y > 10) && touchRect.intersectsRect(swipeUpRect)) {
+            else if ((movingSwipePoint.y - startSwipePoint.y > 8) && touchRect.intersectsRect(swipeUpRect)) {
                 swipeRecognized = true;
                 swipeUp = true;
             }
-            else if ((startSwipePoint.y - movingSwipePoint.y > 10) && touchRect.intersectsRect(swipeDownRect)) {
+            else if ((startSwipePoint.y - movingSwipePoint.y > 8) && touchRect.intersectsRect(swipeDownRect)) {
                 swipeRecognized = true;
                 swipeDown = true;
             }
@@ -80,7 +83,7 @@ void TakasuPoppo::ccTouchesEnded(CCSet *touches, CCEvent *event) {
     swiping = false;
     
     if (TakasuPoppo::touchPosValidation(touchLoc)) {
-        CCTMXLayer *layer = map->layerNamed("Grids");
+        CCTMXLayer *layer = map->layerNamed("Layer");
         CCSize layerSize = layer->getLayerSize();
         CCSize tileSize = layer->getMapTileSize();
         CCPoint transPoint = TakasuPoppo::tileCoorForPosition(touchLoc);
