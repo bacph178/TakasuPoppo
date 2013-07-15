@@ -31,9 +31,7 @@ bool TakasuPoppo::init() {
     TakasuPoppo::addBlocksToArray();
     TakasuPoppo::addTileMap();
     
-    CCSprite *background = CCSprite::create("PuzzleBackgroud3.png");
-    background->setPosition(ccp(winSize.width/2, winSize.height/2));
-    this->addChild(background, -2, -2);
+    
     
     controlable = true;
 
@@ -46,6 +44,9 @@ bool TakasuPoppo::init() {
     
     this->scheduleUpdate();
     this->schedule(schedule_selector(TakasuPoppo::fixedUpdate));
+    
+    CCLog("Height %i", (int)winSize.height);
+    CCLog("Width %i", (int)winSize.width);
     
     return true;
 }
@@ -97,7 +98,8 @@ void TakasuPoppo::fixedUpdate(float time) {
     TakasuPoppo::matchList();
     if (toDestroyArray->count() != 0 && inTheMove == false && inTheFall == false) {
         this->unschedule(schedule_selector(TakasuPoppo::smartGeneration));
-        this->runAction(CCSequence::create(CCCallFunc::create(this, callfunc_selector(TakasuPoppo::cleanBlocks)),
+        this->runAction(CCSequence::create(CCDelayTime::create(0.4),
+                                           CCCallFunc::create(this, callfunc_selector(TakasuPoppo::cleanBlocks)),
                                            CCDelayTime::create(0.1),
                                            CCCallFunc::create(this, callfunc_selector(TakasuPoppo::afterClean)),
                                            CCDelayTime::create(0.1),

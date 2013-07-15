@@ -36,6 +36,8 @@ private:
     float fallCounter;              //Counter time for falling counter action
     float deltaTime;                //Public variable for delta time
     
+    float movingSpeed = 0.07;       //For all moving speed
+    
     bool spriteContained;           //Bool for the touch on sprite's trigger
     bool swiping;                   //Bool for swiping action
     bool swipeRecognized;           //Bool for swipe action recognized

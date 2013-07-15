@@ -46,7 +46,8 @@ void TakasuPoppo::swapTilesCheck(TPObjectExtension *exObj, int swpGid) {
     TakasuPoppo::lookForMatches();
     TPObjectExtension *swpObj = dynamic_cast<TPObjectExtension*>(colorArray->objectAtIndex(swpGid- 1)); //Out of range error
     if (exObj->getControlTrigger() != false && swpObj->getControlTrigger() != false &&
-        exObj->getID() != 7 && swpObj->getID() != 7) {
+        exObj->getID() != 7 && swpObj->getID() != 7 &&
+        exObj->getID() != 8 && swpObj->getID() != 8) {
         TakasuPoppo::swapColorID(exObj, swpObj);
         movedSprite = exObj;
         swapedSprite = swpObj;
@@ -81,14 +82,14 @@ void TakasuPoppo::swapTilesBack() {
     
     movedSprite->getSprite()->runAction(CCSequence::create(
                     CCCallFuncND::create(this, callfuncND_selector(TakasuPoppo::switchControlable), (void*)movedSprite),
-                    CCMoveTo::create(0.1, moveDes),
-                    CCMoveTo::create(0.1, swapDes),
+                    CCMoveTo::create(0.09, moveDes),
+                    CCMoveTo::create(0.09, swapDes),
                     CCCallFuncND::create(this, callfuncND_selector(TakasuPoppo::switchControlable), (void*)movedSprite), NULL));
     
     swapedSprite->getSprite()->runAction(CCSequence::create(
                     CCCallFuncND::create(this, callfuncND_selector(TakasuPoppo::switchControlable), (void*)swapedSprite),
-                    CCMoveTo::create(0.1, swapDes),
-                    CCMoveTo::create(0.1, moveDes),
+                    CCMoveTo::create(0.09, swapDes),
+                    CCMoveTo::create(0.09, moveDes),
                     CCCallFuncND::create(this, callfuncND_selector(TakasuPoppo::switchControlable), (void*)swapedSprite), NULL));
 }
 
@@ -110,11 +111,11 @@ void TakasuPoppo::checkPosition() {
 
     if (swapedSprite->getSprite()->getPosition().x != swapedSprite->getPosition().x ||
         swapedSprite->getSprite()->getPosition().y != swapedSprite->getPosition().y ) {
-        swapedSprite->getSprite()->runAction(CCMoveTo::create(0.1, swapedSprite->getPosition()));
+        swapedSprite->getSprite()->runAction(CCMoveTo::create(0.09, swapedSprite->getPosition()));
     }
     if (movedSprite->getSprite()->getPosition().x != movedSprite->getPosition().x ||
         movedSprite->getSprite()->getPosition().y != movedSprite->getPosition().y ) {
-        movedSprite->getSprite()->runAction(CCMoveTo::create(0.1, movedSprite->getPosition()));
+        movedSprite->getSprite()->runAction(CCMoveTo::create(0.09, movedSprite->getPosition()));
     }
 
 }

@@ -10,9 +10,10 @@
 #pragma mark Tile Functions
 
 void TakasuPoppo::addTileMap () {
-    map = CCTMXTiledMap::create("AnotherMap.tmx");
+    map = CCTMXTiledMap::create("90x90TileMap.tmx");
     this->addChild(map, -1, -1);
-    layer = map->layerNamed("Grids");
+    layer = map->layerNamed("Layer");
+    CCLog("Layer width %f and height %f", layer->getContentSize().width, layer->getContentSize().height);
     TakasuPoppo::createFixture();
     
     CCArray *pChildrenArray = map->getChildren();
@@ -58,10 +59,7 @@ void TakasuPoppo::createFixture() {
             CCObject *object = colorArray->objectAtIndex(m_gid - 1);
             TPObjectExtension *exObj = dynamic_cast<TPObjectExtension*>(object);
             TakasuPoppo::setValuesForExObj(exObj, randomTile, m_gid, randomTileSprite, tilePosition, tileCoordination, true);
-//            CCLog("Tile %i added - Color:%i; GID:%i, TileSprite:%s, TilePosition: X%i Y%i, Tile Coordination; X%i Y%i.",
-//                  colorArray->indexOfObject(exObj), randomTile, m_gid, spriteName, (int)tilePosition.x, (int)tilePosition.y,
-//                  (int)tileCoordination.x, (int)tileCoordination.y);
-            
+  
             this->addChild(randomTileSprite, 3, 300 + m_gid);
         }
     }
@@ -69,7 +67,8 @@ void TakasuPoppo::createFixture() {
 
 CCPoint TakasuPoppo::tileCoorForPosition(CCPoint position) {
     float x = position.x / map->getTileSize().width;
-    float y = ((winSize.height - position.y)/(map->getTileSize().height)) -1;
+    float y = ((winSize.height - (winSize.height - layer->getContentSize().height)) - position.y) /
+               (map->getTileSize().height);
     CCPoint transPos = ccp(floor(x), floor(y));
     return transPos;
 }
@@ -102,6 +101,7 @@ void TakasuPoppo::generateRandomBlock(TPObjectExtension *exObj) {
     CCSprite *randomTileSprite = CCSprite::create(spriteName);
     randomTileSprite->setPosition(ccp(exObj->getPosition().x, exObj->getPosition().y + 70));
     randomTileSprite->runAction(CCMoveTo::create(0.3, exObj->getPosition()));
+    
     exObj->setSprite(randomTileSprite);
     exObj->setID(randomTile);
     this->addChild(randomTileSprite, 3, 300 + exObj->getGid());
@@ -172,7 +172,7 @@ void TakasuPoppo::generateBlock(TPObjectExtension *exObj1, int type) {
         return;
     }
     if (type == 7) {
-        CCLog("Are you an idiot to assign an empty block to another empty block?");
+        CCLog("Are you an idiot to assign an nothing to an empty block?");
         generateRandomBlock(exObj1);
         return;
     }

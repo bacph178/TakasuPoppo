@@ -17,25 +17,30 @@ void TakasuPoppo::cleanBlocks() {
             CCSprite *ex1 = blockSet->getEx1()->getSprite();
             CCSprite *ex2 = blockSet->getEx2()->getSprite();
             CCSprite *ex3 = blockSet->getEx3()->getSprite();
-            this->removeChild(ex1);
+            ex1->runAction(CCSequence::create(CCDelayTime::create(0.2),
+                                               CCRemoveSelf::create(), NULL));
             TakasuPoppo::popParticles(blockSet->getEx1()->getPosition());
-            this->removeChild(ex2);
+            ex2->runAction(CCSequence::create(CCDelayTime::create(0.2),
+                                              CCRemoveSelf::create(), NULL));
             TakasuPoppo::popParticles(blockSet->getEx2()->getPosition());
-            this->removeChild(ex3);
+            ex3->runAction(CCSequence::create(CCDelayTime::create(0.2),
+                                              CCRemoveSelf::create(), NULL));
             TakasuPoppo::popParticles(blockSet->getEx3()->getPosition());
             blockSet->getEx1()->setID(7);
             blockSet->getEx2()->setID(7);
             blockSet->getEx3()->setID(7);
             
-            if (blockSet->getEx4()) {
+            if (blockSet->getEx4() && blockSet->getEx4() != NULL) {
                 CCSprite *ex4 = blockSet->getEx4()->getSprite();
-                ex4->removeFromParentAndCleanup(true);
+                ex4->runAction(CCSequence::create(CCDelayTime::create(0.1),
+                                                  CCRemoveSelf::create(), NULL));
                 TakasuPoppo::popParticles(blockSet->getEx4()->getPosition());
                 blockSet->getEx4()->setID(7);
             }
-            if (blockSet->getEx5()) {
+            if (blockSet->getEx5() && blockSet->getEx5() != NULL) {
                 CCSprite *ex5 = blockSet->getEx5()->getSprite();
-                ex5->removeFromParentAndCleanup(true);
+                ex5->runAction(CCSequence::create(CCDelayTime::create(0.1),
+                                                  CCRemoveSelf::create(), NULL));
                 TakasuPoppo::popParticles(blockSet->getEx5()->getPosition());
                 blockSet->getEx5()->setID(7);
             }
@@ -57,9 +62,10 @@ void TakasuPoppo::afterClean() {
                     exObj2->getCoordination().y < exObj->getCoordination().y &&
                     exObj2->getID() != 7) {
                     int blocksAway = exObj->getCoordination().y - exObj2->getCoordination().y;
-                    CCPoint movePos = exObj->getPosition();
+                    //CCPoint movePos = exObj->getPosition();
                     CCSprite *toMoveSprite =  exObj2->getSprite();
-                    toMoveSprite->runAction(CCMoveTo::create(0.1 * blocksAway, movePos));
+                    //toMoveSprite->runAction(CCMoveTo::create(movingSpeed * blocksAway, movePos));
+                    toMoveSprite->runAction(CCMoveBy::create(movingSpeed * blocksAway, ccp(0, - 90 * blocksAway)));
                     TakasuPoppo::swapColorID(exObj, exObj2);
                     break;
                 }
