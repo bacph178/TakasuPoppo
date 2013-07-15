@@ -54,7 +54,7 @@ void TakasuPoppo::swapTilesCheck(TPObjectExtension *exObj, int swpGid) {
         if (TakasuPoppo::matchAble(swpObj->getCoordination(), swpObj->getID()) == true ||
             TakasuPoppo::matchAble(exObj->getCoordination(), exObj->getID()) == true) {
             moveCounter = 0;
-            this->schedule(schedule_selector(TakasuPoppo::movingBoolSwitch));
+            this->schedule(schedule_selector(TakasuPoppo::movingBoolSwitch), 0.05);
             TakasuPoppo::checkPosition();
         }
         else {

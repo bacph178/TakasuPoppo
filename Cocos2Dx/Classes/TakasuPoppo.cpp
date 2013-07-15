@@ -98,23 +98,22 @@ void TakasuPoppo::fixedUpdate(float time) {
     TakasuPoppo::matchList();
     if (toDestroyArray->count() != 0 && inTheMove == false && inTheFall == false) {
         this->unschedule(schedule_selector(TakasuPoppo::smartGeneration));
-        this->runAction(CCSequence::create(CCDelayTime::create(0.4),
+        this->runAction(CCSequence::create(CCDelayTime::create(0.1),
                                            CCCallFunc::create(this, callfunc_selector(TakasuPoppo::cleanBlocks)),
                                            CCDelayTime::create(0.1),
                                            CCCallFunc::create(this, callfunc_selector(TakasuPoppo::afterClean)),
                                            CCDelayTime::create(0.1),
                                            CCCallFunc::create(this, callfunc_selector(TakasuPoppo::scheduleGenerate)),
                                            NULL));
-        this->schedule(schedule_selector(TakasuPoppo::fallingBoolSwitch));
+        this->schedule(schedule_selector(TakasuPoppo::fallingBoolSwitch), 0.1);
     }
 }
 
 void TakasuPoppo::fallingBoolSwitch(float dt) {
     inTheFall = true;    
     fallCounter += deltaTime;
-    if (fallCounter > 0.4) {
+    if (fallCounter > 0.1) {
         inTheFall = false;
-
         this->unschedule(schedule_selector(TakasuPoppo::fallingBoolSwitch));
     }
 }
@@ -129,5 +128,5 @@ void TakasuPoppo::movingBoolSwitch(float dt) {
 }
 
 void TakasuPoppo::scheduleGenerate() {
-    this->schedule(schedule_selector(TakasuPoppo::smartGeneration));
+    this->schedule(schedule_selector(TakasuPoppo::smartGeneration), 0.1);
 }
