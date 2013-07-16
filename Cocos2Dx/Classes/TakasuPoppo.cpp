@@ -45,14 +45,18 @@ bool TakasuPoppo::init() {
     this->scheduleUpdate();
     this->schedule(schedule_selector(TakasuPoppo::fixedUpdate));
     
-    CCLog("Height %i", (int)winSize.height);
-    CCLog("Width %i", (int)winSize.width);
+    
+//    TPObjectExtension *exObj = dynamic_cast<TPObjectExtension*>(colorArray->objectAtIndex(0));
+//    CCRenderTexture *tex = TakasuPoppo::outlineEffect(exObj->getSprite(), 10, ccc3(255, 178, 43), 50);
+//    this->addChild(tex, exObj->getSprite()->getZOrder() - 1);
     
     return true;
 }
 
 void TakasuPoppo::update(float dt) {
     deltaTime = dt;
+    hintCounter -= dt;
+    
     if (controlable) {
         if (swipeRight) {
             CCObject *object = NULL;

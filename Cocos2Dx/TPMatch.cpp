@@ -70,6 +70,8 @@ bool TakasuPoppo::isTileMatched(int gid, int typeID) {
 }
 
 void TakasuPoppo::matchList() {
+    CCArray *tempArraySet = new CCArray;
+    
     for (int y = 0; y < 7; y++) {
         for (int x = 0; x < 5; x++) {
             CCArray *match = new CCArray;
@@ -87,38 +89,38 @@ void TakasuPoppo::matchList() {
                     if (match->count() == 3) {
                         TPObjectExtension *exObj2 = dynamic_cast<TPObjectExtension*>(match->objectAtIndex(1));
                         TPObjectExtension *exObj3 = dynamic_cast<TPObjectExtension*>(match->objectAtIndex(2));
-                        exObj->setID(8);
-                        exObj2->setID(8);
-                        exObj3->setID(8);
+                        exObj->setControlTrigger(false);
+                        exObj2->setControlTrigger(false);
+                        exObj3->setControlTrigger(false);
                         TPBlockSet *blockSet = new TPBlockSet(exObj, exObj2, exObj3, NULL, NULL,
                                                               "TrioHor", exObj->getCoordination().x, exObj->getCoordination().y);
-                        toDestroyArray->addObject(blockSet);
+                        tempArraySet->addObject(blockSet);
                     }
                     if (match->count() == 4) {
                         TPObjectExtension *exObj2 = dynamic_cast<TPObjectExtension*>(match->objectAtIndex(1));
                         TPObjectExtension *exObj3 = dynamic_cast<TPObjectExtension*>(match->objectAtIndex(2));
                         TPObjectExtension *exObj4 = dynamic_cast<TPObjectExtension*>(match->objectAtIndex(3));
-                        exObj->setID(8);
-                        exObj2->setID(8);
-                        exObj3->setID(8);
-                        exObj4->setID(8);
+                        exObj->setControlTrigger(false);
+                        exObj2->setControlTrigger(false);
+                        exObj3->setControlTrigger(false);
+                        exObj4->setControlTrigger(false);
                         TPBlockSet *blockSet = new TPBlockSet(exObj, exObj2, exObj3, exObj4, NULL,
                                                               "QuadHor", exObj->getCoordination().x, exObj->getCoordination().y);
-                        toDestroyArray->addObject(blockSet);
+                        tempArraySet->addObject(blockSet);
                     }
                     if (match->count() == 5) {
                         TPObjectExtension *exObj2 = dynamic_cast<TPObjectExtension*>(match->objectAtIndex(1));
                         TPObjectExtension *exObj3 = dynamic_cast<TPObjectExtension*>(match->objectAtIndex(2));
                         TPObjectExtension *exObj4 = dynamic_cast<TPObjectExtension*>(match->objectAtIndex(3));
                         TPObjectExtension *exObj5 = dynamic_cast<TPObjectExtension*>(match->objectAtIndex(4));
-                        exObj->setID(8);
-                        exObj2->setID(8);
-                        exObj3->setID(8);
-                        exObj4->setID(8);
-                        exObj5->setID(8);
+                        exObj->setControlTrigger(false);
+                        exObj2->setControlTrigger(false);
+                        exObj3->setControlTrigger(false);
+                        exObj4->setControlTrigger(false);
+                        exObj5->setControlTrigger(false);
                         TPBlockSet *blockSet = new TPBlockSet(exObj, exObj2, exObj3, exObj4, exObj5,
                                                               "PentaHor", exObj->getCoordination().x, exObj->getCoordination().y);
-                        toDestroyArray->addObject(blockSet);
+                        tempArraySet->addObject(blockSet);
                     }
                 }
             }
@@ -142,31 +144,44 @@ void TakasuPoppo::matchList() {
                     if (match->count() == 3) {
                         TPObjectExtension *exObj2 = dynamic_cast<TPObjectExtension*>(match->objectAtIndex(1));
                         TPObjectExtension *exObj3 = dynamic_cast<TPObjectExtension*>(match->objectAtIndex(2));
+                        exObj->setControlTrigger(false);
+                        exObj2->setControlTrigger(false);
+                        exObj3->setControlTrigger(false);
                         TPBlockSet *blockSet = new TPBlockSet(exObj, exObj2, exObj3, NULL, NULL,
                                                               "TrioVer", exObj->getCoordination().x, exObj->getCoordination().y);
-                        toDestroyArray->addObject(blockSet);
+                        tempArraySet->addObject(blockSet);
                     }
                     if (match->count() == 4) {
                         TPObjectExtension *exObj2 = dynamic_cast<TPObjectExtension*>(match->objectAtIndex(1));
                         TPObjectExtension *exObj3 = dynamic_cast<TPObjectExtension*>(match->objectAtIndex(2));
                         TPObjectExtension *exObj4 = dynamic_cast<TPObjectExtension*>(match->objectAtIndex(3));
+                        exObj->setControlTrigger(false);
+                        exObj2->setControlTrigger(false);
+                        exObj3->setControlTrigger(false);
+                        exObj4->setControlTrigger(false);
                         TPBlockSet *blockSet = new TPBlockSet(exObj, exObj2, exObj3, exObj4, NULL,
                                                               "QuadVer", exObj->getCoordination().x, exObj->getCoordination().y);
-                        toDestroyArray->addObject(blockSet);
+                        tempArraySet->addObject(blockSet);
                     }
                     if (match->count() == 5) {
                         TPObjectExtension *exObj2 = dynamic_cast<TPObjectExtension*>(match->objectAtIndex(1));
                         TPObjectExtension *exObj3 = dynamic_cast<TPObjectExtension*>(match->objectAtIndex(2));
                         TPObjectExtension *exObj4 = dynamic_cast<TPObjectExtension*>(match->objectAtIndex(3));
                         TPObjectExtension *exObj5 = dynamic_cast<TPObjectExtension*>(match->objectAtIndex(4));
+                        exObj->setControlTrigger(false);
+                        exObj2->setControlTrigger(false);
+                        exObj3->setControlTrigger(false);
+                        exObj4->setControlTrigger(false);
+                        exObj5->setControlTrigger(false);
                         TPBlockSet *blockSet = new TPBlockSet(exObj, exObj2, exObj3, exObj4, exObj5,
                                                               "PentaVer", exObj->getCoordination().x, exObj->getCoordination().y);
-                        toDestroyArray->addObject(blockSet);
+                        tempArraySet->addObject(blockSet);
                     }
                 }
             }
         }
     }
+    toDestroyArray->addObjectsFromArray(tempArraySet);
 }
 
 CCArray *TakasuPoppo::getMatchHor(TPObjectExtension *exObj) {

@@ -36,6 +36,8 @@ private:
     float fallCounter;              //Counter time for falling counter action
     float deltaTime;                //Public variable for delta time
     
+    float hintCounter = 3;              //Display hint after this counter
+    
     float movingSpeed = 0.07;       //For all moving speed
     
     bool spriteContained;           //Bool for the touch on sprite's trigger
@@ -157,6 +159,12 @@ public:
     void popParticles(CCPoint position);
     //Remote particles run function, not available yet
     void remoteParticles();
+    //Spark particles for hint
+    void hintParticles(TPObjectExtension *exObj);
+    //Shine particles, gives a shine for a set of blocks
+    void comboPartiles(TPObjectExtension *exObj);
+    //Rends an outline effect on a sprite
+    CCRenderTexture *outlineEffect(CCSprite *label, int size, ccColor3B color, GLubyte opacity);
     
     #pragma mark Debug
     void setupDebugButton();
