@@ -26,6 +26,7 @@ private:
     CCArray *colorArray;            //Main blocks array, consist of TPObjectEx, stupidly named
     CCArray *toDestroyArray;        //To be removed blocks will be inserted to this array
     CCArray *pickedArray;           //The array of object to be moved with swipe button, 1 object only
+    CCArray *hintArray;             //An array consisting of possible matches
     
     TPObjectExtension *movedSprite; //The sprite to be moved with swipe button
     TPObjectExtension *swapedSprite;//The sprite to be swaped with moving sprite
@@ -54,10 +55,17 @@ private:
     bool swipeUp;                   //True if swipe up action is recognized
     bool swipeDown;                 //True if swipe down action is recognized
     
+    bool hintDisplaying;            //Indicating that a hint is currently displayed
+    
+    int count0, count1, count2,     //Count of ti
+    count3, count4, count5, count6;
+    
     bool gridOn = false;
     
     
 public:
+    
+    
     #pragma mark Takasu Poppo 
     static cocos2d::CCScene* scene();
     virtual bool init();
@@ -73,6 +81,9 @@ public:
     void fallingBoolSwitch(float time);
     //Unschedule generation
     void scheduleGenerate();
+    //Hint display
+    void hintGeneration();
+    
     
     #pragma mark Touch
     virtual void ccTouchesBegan(CCSet *touches, CCEvent *event);
@@ -80,6 +91,7 @@ public:
     virtual void ccTouchesEnded(CCSet *touches, CCEvent *event);
     //Validate touch position, returns false if out of map
     bool touchPosValidation(CCPoint touchLoc);
+    
     
     #pragma mark Map
     //Creates TMX Map
@@ -101,6 +113,7 @@ public:
     void addBlocksToArray();
     //Set values for EX Object
     void setValuesForExObj(TPObjectExtension *exObj, int colorID, int gid, CCSprite *sprite, CCPoint position, CCPoint coordination, bool trigger);
+    
     
     #pragma mark Match
     //Check if there is matching pair in the begining, gotta rewrite it later
@@ -128,11 +141,13 @@ public:
     //Generate a match if there is a shortage
     void smartGeneration();
     
+    
     #pragma mark Clean
     //Remove blocks from destroy array
     void cleanBlocks();
     //Move the blocks on the top of the destroyed blocks down
     void afterClean();
+    
     
     #pragma mark Swiped
     //If swipe is recognizes, run into one of the followings
@@ -154,6 +169,7 @@ public:
     //Runs and return, for when moving is not possible
     void swapTilesBack();
     
+    
     #pragma mark Particles
     //Pop particles
     void popParticles(CCPoint position);
@@ -165,6 +181,7 @@ public:
     void comboPartiles(TPObjectExtension *exObj);
     //Rends an outline effect on a sprite
     CCRenderTexture *outlineEffect(CCSprite *label, int size, ccColor3B color, GLubyte opacity);
+    
     
     #pragma mark Debug
     void setupDebugButton();

@@ -280,11 +280,12 @@ int TakasuPoppo::lookForMatches() {
             if (bExObj != NULL && bExObj->getID() == aExObj->getID()) {
                 if (TakasuPoppo::sumOfMatches(aExObj, bExObj, lExObj, sExObj, mExObj)) match++;
                 if (TakasuPoppo::sumOfMatches(aExObj, bExObj, gExObj, tExObj, dExObj)) match++;
+                
             }
             
             //Vertical 3 matches
             if (eExObj != NULL && eExObj->getID() == aExObj->getID()) {
-                if (TakasuPoppo::sumOfMatches(aExObj, eExObj, iExObj, jExObj, yExObj)) match++;
+                if (TakasuPoppo::sumOfMatches(aExObj, eExObj, iExObj, jExObj, yExObj))match++;
                 if (TakasuPoppo::sumOfMatches(aExObj, eExObj, pExObj, qExObj, sExObj))match++;
             }
             
@@ -309,23 +310,24 @@ int TakasuPoppo::lookForMatches() {
             }
         }
     }
-    CCLog("There are %i possible matches", match);
+//    CCLog("There are %i possible matches", match);
     return match;
 }
 
 bool TakasuPoppo::sumOfMatches(TPObjectExtension *exA, TPObjectExtension *exB,
                                TPObjectExtension *ex1, TPObjectExtension *ex2, TPObjectExtension *ex3) {
-
         if (ex1 != NULL && ex1->getID() == exA->getID()) {
+            if (hintArray->count() < 5) hintArray->addObject(ex1);
             return true;
         }
         if (ex2 != NULL && ex2->getID() == exA->getID()) {
+            if (hintArray->count() < 5) hintArray->addObject(ex2);
             return true;
         }
         if (ex3 != NULL && ex3->getID() == exA->getID()) {
+            if (hintArray->count() < 5) hintArray->addObject(ex3);
             return true;
         }
-    
     return false;
 }
 
@@ -379,37 +381,31 @@ bool TakasuPoppo::matchAble(CCPoint coor, int type) {
     
     if (bExObj != NULL && bExObj->getID() == type &&
         cExObj != NULL && cExObj->getID() == type) {
-        CCLog("b c combo with %i type", type);
         return true;
     }
     
     if (nExObj != NULL && nExObj->getID() == type &&
         mExObj != NULL && mExObj->getID() == type) {
-        CCLog("n mcombo with %i type", type);
         return true;
     }
     
     if (nExObj != NULL && nExObj->getID() == type &&
         bExObj != NULL && bExObj->getID() == type) {
-        CCLog("n b combo with %i type", type);
         return true;
     }
     
     if (eExObj != NULL && eExObj->getID() == type &&
         hExObj != NULL && hExObj->getID() == type) {
-        CCLog("e h combo with %i type", type);
         return true;
     }
     
     if (oExObj != NULL && oExObj->getID() == type &&
         qExObj != NULL && qExObj->getID() == type) {
-        CCLog("o q combo with %i type", type);
         return true;
     }
     
     if (oExObj != NULL && oExObj->getID() == type &&
         eExObj != NULL && eExObj->getID() == type) {
-        CCLog("o e combo with %i type", type);
         return true;
     }
     

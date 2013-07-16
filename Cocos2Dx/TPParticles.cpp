@@ -103,8 +103,7 @@ CCRenderTexture *TakasuPoppo::outlineEffect(CCSprite *sprite, int size, ccColor3
     CCPoint bottomLeft = ccp(sprite->getContentSize().width * sprite->getAnchorPoint().x + size,
                              sprite->getContentSize().height * sprite->getAnchorPoint().y + size);
     
-    CCPoint positionOffset = ccp(sprite->getTexture()->getContentSize().width - 70,
-                                 sprite->getTexture()->getContentSize().height - 60);
+    CCPoint positionOffset = ccp(0, 0);
     
     CCPoint position = ccpSub(originalPos, positionOffset);
     

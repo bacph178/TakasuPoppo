@@ -10,6 +10,8 @@
 #include "TPBlockSet.h"
 void TakasuPoppo::cleanBlocks() {
     CCObject *object;
+    int pair0 = 0, pair1 = 0, pair2 = 0,
+        pair3 = 0, pair4 = 0, pair5 = 0, pair6 = 0;
     if (toDestroyArray->count() != 0) {
         CCARRAY_FOREACH(toDestroyArray, object) {
             
@@ -58,8 +60,14 @@ void TakasuPoppo::cleanBlocks() {
             }
         }
     }
+    CCLog("Pair 0 sum: %i", pair0);
+    CCLog("Pair 1 sum: %i", pair1);
+    CCLog("Pair 2 sum: %i", pair2);
+    CCLog("Pair 3 sum: %i", pair3);
+    CCLog("Pair 4 sum: %i", pair4);
+    CCLog("Pair 5 sum: %i", pair5);
+    CCLog("Pair 6 sum: %i", pair6);
     toDestroyArray->removeAllObjects();
-    toDestroyArray->retain();
 }
 
 void TakasuPoppo::afterClean() {

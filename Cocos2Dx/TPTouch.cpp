@@ -10,6 +10,12 @@
 #pragma mark Touches
 
 void TakasuPoppo::ccTouchesBegan(CCSet *touches, CCEvent *event) {
+    
+    hintCounter = 3;
+    hintArray->removeAllObjects();
+    this->removeChildByTag(778);
+    hintDisplaying = false;
+    
     CCTouch *touch = (CCTouch*)touches->anyObject();
     CCPoint touchLoc = this->getParent()->convertTouchToNodeSpace(touch);
     
@@ -89,10 +95,8 @@ void TakasuPoppo::ccTouchesEnded(CCSet *touches, CCEvent *event) {
         CCPoint transPoint = TakasuPoppo::tileCoorForPosition(touchLoc);
         unsigned int m_gid = layer->tileGIDAt(transPoint);
         CCLog("Tile ID at position : %i", m_gid);
-        
     }
     pickedArray->removeAllObjects();
-    
 }
 
 bool TakasuPoppo::touchPosValidation(CCPoint touchLoc) {
