@@ -30,12 +30,6 @@
 		84AC305B178FF4DA0073C6D5 /* NewPrettyTile.png in Resources */ = {isa = PBXBuildFile; fileRef = 84AC3058178FF4D90073C6D5 /* NewPrettyTile.png */; };
 		84AC305D178FFFB80073C6D5 /* Default.png in Resources */ = {isa = PBXBuildFile; fileRef = 84AC305C178FFFB70073C6D5 /* Default.png */; };
 		84AC305F179001300073C6D5 /* Default@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 84AC305E1790012F0073C6D5 /* Default@2x.png */; };
-		84AC306D179639C00073C6D5 /* CCGestureRecognizer.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 84AC3061179639C00073C6D5 /* CCGestureRecognizer.cpp */; };
-		84AC306E179639C00073C6D5 /* CCLongPressGestureRecognizer.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 84AC3063179639C00073C6D5 /* CCLongPressGestureRecognizer.cpp */; };
-		84AC306F179639C00073C6D5 /* CCPanGestureRecognizer.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 84AC3065179639C00073C6D5 /* CCPanGestureRecognizer.cpp */; };
-		84AC3070179639C00073C6D5 /* CCPinchGestureRecognizer.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 84AC3067179639C00073C6D5 /* CCPinchGestureRecognizer.cpp */; };
-		84AC3071179639C00073C6D5 /* CCSwipeGestureRecognizer.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 84AC3069179639C00073C6D5 /* CCSwipeGestureRecognizer.cpp */; };
-		84AC3072179639C00073C6D5 /* CCTapGestureRecognizer.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 84AC306B179639C00073C6D5 /* CCTapGestureRecognizer.cpp */; };
 		84AC30AA179658AE0073C6D5 /* Poppo1A.png in Resources */ = {isa = PBXBuildFile; fileRef = 84AC3098179658AE0073C6D5 /* Poppo1A.png */; };
 		84AC30AB179658AE0073C6D5 /* Poppo1B.png in Resources */ = {isa = PBXBuildFile; fileRef = 84AC3099179658AE0073C6D5 /* Poppo1B.png */; };
 		84AC30AC179658AE0073C6D5 /* Poppo2A.png in Resources */ = {isa = PBXBuildFile; fileRef = 84AC309A179658AE0073C6D5 /* Poppo2A.png */; };
@@ -52,6 +46,12 @@
 		84AC30B7179658AE0073C6D5 /* Poppo7B.png in Resources */ = {isa = PBXBuildFile; fileRef = 84AC30A5179658AE0073C6D5 /* Poppo7B.png */; };
 		84AC30BA179658D40073C6D5 /* pop.plist in Resources */ = {isa = PBXBuildFile; fileRef = 84AC30B8179658D40073C6D5 /* pop.plist */; };
 		84AC30BB179658D40073C6D5 /* pop.pvr.ccz in Resources */ = {isa = PBXBuildFile; fileRef = 84AC30B9179658D40073C6D5 /* pop.pvr.ccz */; };
+		84AC30C91796A52E0073C6D5 /* CCGestureRecognizer.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 84AC30BD1796A52E0073C6D5 /* CCGestureRecognizer.cpp */; };
+		84AC30CA1796A52E0073C6D5 /* CCLongPressGestureRecognizer.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 84AC30BF1796A52E0073C6D5 /* CCLongPressGestureRecognizer.cpp */; };
+		84AC30CB1796A52E0073C6D5 /* CCPanGestureRecognizer.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 84AC30C11796A52E0073C6D5 /* CCPanGestureRecognizer.cpp */; };
+		84AC30CC1796A52E0073C6D5 /* CCPinchGestureRecognizer.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 84AC30C31796A52E0073C6D5 /* CCPinchGestureRecognizer.cpp */; };
+		84AC30CD1796A52E0073C6D5 /* CCSwipeGestureRecognizer.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 84AC30C51796A52E0073C6D5 /* CCSwipeGestureRecognizer.cpp */; };
+		84AC30CE1796A52E0073C6D5 /* CCTapGestureRecognizer.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 84AC30C71796A52E0073C6D5 /* CCTapGestureRecognizer.cpp */; };
 		84AE264117812CED00FBD93C /* TPClean.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 84AE263F17812CED00FBD93C /* TPClean.cpp */; };
 		84AE2645178281F800FBD93C /* Star.png in Resources */ = {isa = PBXBuildFile; fileRef = 84AE2644178281F800FBD93C /* Star.png */; };
 		84AE26481782D4AE00FBD93C /* TPParticles.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 84AE26461782D4AE00FBD93C /* TPParticles.cpp */; };
@@ -350,18 +350,6 @@
 		84AC3058178FF4D90073C6D5 /* NewPrettyTile.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = NewPrettyTile.png; sourceTree = "<group>"; };
 		84AC305C178FFFB70073C6D5 /* Default.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = Default.png; sourceTree = "<group>"; };
 		84AC305E1790012F0073C6D5 /* Default@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "Default@2x.png"; sourceTree = "<group>"; };
-		84AC3061179639C00073C6D5 /* CCGestureRecognizer.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = CCGestureRecognizer.cpp; sourceTree = "<group>"; };
-		84AC3062179639C00073C6D5 /* CCGestureRecognizer.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CCGestureRecognizer.h; sourceTree = "<group>"; };
-		84AC3063179639C00073C6D5 /* CCLongPressGestureRecognizer.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = CCLongPressGestureRecognizer.cpp; sourceTree = "<group>"; };
-		84AC3064179639C00073C6D5 /* CCLongPressGestureRecognizer.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CCLongPressGestureRecognizer.h; sourceTree = "<group>"; };
-		84AC3065179639C00073C6D5 /* CCPanGestureRecognizer.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = CCPanGestureRecognizer.cpp; sourceTree = "<group>"; };
-		84AC3066179639C00073C6D5 /* CCPanGestureRecognizer.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CCPanGestureRecognizer.h; sourceTree = "<group>"; };
-		84AC3067179639C00073C6D5 /* CCPinchGestureRecognizer.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = CCPinchGestureRecognizer.cpp; sourceTree = "<group>"; };
-		84AC3068179639C00073C6D5 /* CCPinchGestureRecognizer.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CCPinchGestureRecognizer.h; sourceTree = "<group>"; };
-		84AC3069179639C00073C6D5 /* CCSwipeGestureRecognizer.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = CCSwipeGestureRecognizer.cpp; sourceTree = "<group>"; };
-		84AC306A179639C00073C6D5 /* CCSwipeGestureRecognizer.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CCSwipeGestureRecognizer.h; sourceTree = "<group>"; };
-		84AC306B179639C00073C6D5 /* CCTapGestureRecognizer.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = CCTapGestureRecognizer.cpp; sourceTree = "<group>"; };
-		84AC306C179639C00073C6D5 /* CCTapGestureRecognizer.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CCTapGestureRecognizer.h; sourceTree = "<group>"; };
 		84AC3098179658AE0073C6D5 /* Poppo1A.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = Poppo1A.png; sourceTree = "<group>"; };
 		84AC3099179658AE0073C6D5 /* Poppo1B.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = Poppo1B.png; sourceTree = "<group>"; };
 		84AC309A179658AE0073C6D5 /* Poppo2A.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = Poppo2A.png; sourceTree = "<group>"; };
@@ -378,6 +366,18 @@
 		84AC30A5179658AE0073C6D5 /* Poppo7B.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = Poppo7B.png; sourceTree = "<group>"; };
 		84AC30B8179658D40073C6D5 /* pop.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = pop.plist; sourceTree = "<group>"; };
 		84AC30B9179658D40073C6D5 /* pop.pvr.ccz */ = {isa = PBXFileReference; lastKnownFileType = file; path = pop.pvr.ccz; sourceTree = "<group>"; };
+		84AC30BD1796A52E0073C6D5 /* CCGestureRecognizer.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = CCGestureRecognizer.cpp; sourceTree = "<group>"; };
+		84AC30BE1796A52E0073C6D5 /* CCGestureRecognizer.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CCGestureRecognizer.h; sourceTree = "<group>"; };
+		84AC30BF1796A52E0073C6D5 /* CCLongPressGestureRecognizer.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = CCLongPressGestureRecognizer.cpp; sourceTree = "<group>"; };
+		84AC30C01796A52E0073C6D5 /* CCLongPressGestureRecognizer.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CCLongPressGestureRecognizer.h; sourceTree = "<group>"; };
+		84AC30C11796A52E0073C6D5 /* CCPanGestureRecognizer.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = CCPanGestureRecognizer.cpp; sourceTree = "<group>"; };
+		84AC30C21796A52E0073C6D5 /* CCPanGestureRecognizer.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CCPanGestureRecognizer.h; sourceTree = "<group>"; };
+		84AC30C31796A52E0073C6D5 /* CCPinchGestureRecognizer.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = CCPinchGestureRecognizer.cpp; sourceTree = "<group>"; };
+		84AC30C41796A52E0073C6D5 /* CCPinchGestureRecognizer.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CCPinchGestureRecognizer.h; sourceTree = "<group>"; };
+		84AC30C51796A52E0073C6D5 /* CCSwipeGestureRecognizer.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = CCSwipeGestureRecognizer.cpp; sourceTree = "<group>"; };
+		84AC30C61796A52E0073C6D5 /* CCSwipeGestureRecognizer.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CCSwipeGestureRecognizer.h; sourceTree = "<group>"; };
+		84AC30C71796A52E0073C6D5 /* CCTapGestureRecognizer.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = CCTapGestureRecognizer.cpp; sourceTree = "<group>"; };
+		84AC30C81796A52E0073C6D5 /* CCTapGestureRecognizer.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CCTapGestureRecognizer.h; sourceTree = "<group>"; };
 		84AE263F17812CED00FBD93C /* TPClean.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = TPClean.cpp; sourceTree = "<group>"; };
 		84AE2644178281F800FBD93C /* Star.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = Star.png; sourceTree = "<group>"; };
 		84AE26461782D4AE00FBD93C /* TPParticles.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = TPParticles.cpp; sourceTree = "<group>"; };
@@ -1039,26 +1039,6 @@
 			path = Crusher;
 			sourceTree = "<group>";
 		};
-		84AC3060179639C00073C6D5 /* CCGestureRecognizer */ = {
-			isa = PBXGroup;
-			children = (
-				84AC3061179639C00073C6D5 /* CCGestureRecognizer.cpp */,
-				84AC3062179639C00073C6D5 /* CCGestureRecognizer.h */,
-				84AC3063179639C00073C6D5 /* CCLongPressGestureRecognizer.cpp */,
-				84AC3064179639C00073C6D5 /* CCLongPressGestureRecognizer.h */,
-				84AC3065179639C00073C6D5 /* CCPanGestureRecognizer.cpp */,
-				84AC3066179639C00073C6D5 /* CCPanGestureRecognizer.h */,
-				84AC3067179639C00073C6D5 /* CCPinchGestureRecognizer.cpp */,
-				84AC3068179639C00073C6D5 /* CCPinchGestureRecognizer.h */,
-				84AC3069179639C00073C6D5 /* CCSwipeGestureRecognizer.cpp */,
-				84AC306A179639C00073C6D5 /* CCSwipeGestureRecognizer.h */,
-				84AC306B179639C00073C6D5 /* CCTapGestureRecognizer.cpp */,
-				84AC306C179639C00073C6D5 /* CCTapGestureRecognizer.h */,
-			);
-			name = CCGestureRecognizer;
-			path = "../../../Plugins/cocos2d-x-extensions-master/CCGestureRecognizer";
-			sourceTree = "<group>";
-		};
 		84AC3093179658AE0073C6D5 /* Pop */ = {
 			isa = PBXGroup;
 			children = (
@@ -1081,6 +1061,25 @@
 			);
 			name = Pop;
 			path = Crusher/Pop;
+			sourceTree = "<group>";
+		};
+		84AC30BC1796A52E0073C6D5 /* CCGestureRecognizer */ = {
+			isa = PBXGroup;
+			children = (
+				84AC30BD1796A52E0073C6D5 /* CCGestureRecognizer.cpp */,
+				84AC30BE1796A52E0073C6D5 /* CCGestureRecognizer.h */,
+				84AC30BF1796A52E0073C6D5 /* CCLongPressGestureRecognizer.cpp */,
+				84AC30C01796A52E0073C6D5 /* CCLongPressGestureRecognizer.h */,
+				84AC30C11796A52E0073C6D5 /* CCPanGestureRecognizer.cpp */,
+				84AC30C21796A52E0073C6D5 /* CCPanGestureRecognizer.h */,
+				84AC30C31796A52E0073C6D5 /* CCPinchGestureRecognizer.cpp */,
+				84AC30C41796A52E0073C6D5 /* CCPinchGestureRecognizer.h */,
+				84AC30C51796A52E0073C6D5 /* CCSwipeGestureRecognizer.cpp */,
+				84AC30C61796A52E0073C6D5 /* CCSwipeGestureRecognizer.h */,
+				84AC30C71796A52E0073C6D5 /* CCTapGestureRecognizer.cpp */,
+				84AC30C81796A52E0073C6D5 /* CCTapGestureRecognizer.h */,
+			);
+			path = CCGestureRecognizer;
 			sourceTree = "<group>";
 		};
 		DC12FB5B1744D21300480D31 = {
@@ -1852,7 +1851,7 @@
 		DC12FD951744D22700480D31 /* extensions */ = {
 			isa = PBXGroup;
 			children = (
-				84AC3060179639C00073C6D5 /* CCGestureRecognizer */,
+				84AC30BC1796A52E0073C6D5 /* CCGestureRecognizer */,
 				84942B0C177D820900E61AEC /* PListReader */,
 				DC12FDE71744D22900480D31 /* cocos-ext.h */,
 				DC12FDE81744D22900480D31 /* ExtensionMacros.h */,
@@ -2581,12 +2580,12 @@
 				CEFBBE2B177D3ECB0000F235 /* IOFile.cpp in Sources */,
 				84AE264117812CED00FBD93C /* TPClean.cpp in Sources */,
 				84AE26481782D4AE00FBD93C /* TPParticles.cpp in Sources */,
-				84AC306D179639C00073C6D5 /* CCGestureRecognizer.cpp in Sources */,
-				84AC306E179639C00073C6D5 /* CCLongPressGestureRecognizer.cpp in Sources */,
-				84AC306F179639C00073C6D5 /* CCPanGestureRecognizer.cpp in Sources */,
-				84AC3070179639C00073C6D5 /* CCPinchGestureRecognizer.cpp in Sources */,
-				84AC3071179639C00073C6D5 /* CCSwipeGestureRecognizer.cpp in Sources */,
-				84AC3072179639C00073C6D5 /* CCTapGestureRecognizer.cpp in Sources */,
+				84AC30C91796A52E0073C6D5 /* CCGestureRecognizer.cpp in Sources */,
+				84AC30CA1796A52E0073C6D5 /* CCLongPressGestureRecognizer.cpp in Sources */,
+				84AC30CB1796A52E0073C6D5 /* CCPanGestureRecognizer.cpp in Sources */,
+				84AC30CC1796A52E0073C6D5 /* CCPinchGestureRecognizer.cpp in Sources */,
+				84AC30CD1796A52E0073C6D5 /* CCSwipeGestureRecognizer.cpp in Sources */,
+				84AC30CE1796A52E0073C6D5 /* CCTapGestureRecognizer.cpp in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
