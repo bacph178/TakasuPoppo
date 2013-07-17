@@ -129,3 +129,80 @@ CCRenderTexture *TakasuPoppo::outlineEffect(CCSprite *sprite, int size, ccColor3
     return outline;
 }
 
+void TakasuPoppo::popAnimation(CCNode* sender, void* data) {
+    TPObjectExtension *exObj = (TPObjectExtension*)data;
+    CCSpriteFrameCache* cache = CCSpriteFrameCache::sharedSpriteFrameCache();
+    cache->addSpriteFramesWithFile("pop.plist");
+    CCArray* animFrames = new CCArray;
+    char str[100] = {0};
+    for(int i = 0; i < 3; i++) {
+        sprintf(str, "pop%d.png", i);
+        CCSpriteFrame* frame = cache->spriteFrameByName( str );
+        frame->setOriginalSizeInPixels(CCSizeMake(300, 300));
+        animFrames->addObject(frame);
+    }
+    CCAnimation* animation = CCAnimation::createWithSpriteFrames(animFrames, 0.1f);
+    exObj->getSprite()->runAction(CCAnimate::create(animation));
+}
+
+void TakasuPoppo::spriteChange(CCNode *sender, void* data) {
+    TPObjectExtension *exObj = (TPObjectExtension*)data;
+    CCLog("Object ID %i", exObj->getID());
+    if (exObj->getID() == 0) {
+        CCImage *poppoB = new CCImage;
+        poppoB->initWithImageFile("Poppo1B.png");
+        CCTexture2D *poppoTexture = new CCTexture2D;
+        poppoTexture->initWithImage(poppoB);
+        CCSprite *poppoSprite = exObj->getSprite();
+        poppoSprite->setTexture(poppoTexture);
+    }
+    if (exObj->getID() == 1) {
+        CCImage *poppoB = new CCImage;
+        poppoB->initWithImageFile("Poppo2B.png");
+        CCTexture2D *poppoTexture = new CCTexture2D;
+        poppoTexture->initWithImage(poppoB);
+        CCSprite *poppoSprite = exObj->getSprite();
+        poppoSprite->setTexture(poppoTexture);
+    }
+    if (exObj->getID() == 2) {
+        CCImage *poppoB = new CCImage;
+        poppoB->initWithImageFile("Poppo3B.png");
+        CCTexture2D *poppoTexture = new CCTexture2D;
+        poppoTexture->initWithImage(poppoB);
+        CCSprite *poppoSprite = exObj->getSprite();
+        poppoSprite->setTexture(poppoTexture);
+    }
+    if (exObj->getID() == 3) {
+        CCImage *poppoB = new CCImage;
+        poppoB->initWithImageFile("Poppo4B.png");
+        CCTexture2D *poppoTexture = new CCTexture2D;
+        poppoTexture->initWithImage(poppoB);
+        CCSprite *poppoSprite = exObj->getSprite();
+        poppoSprite->setTexture(poppoTexture);
+    }
+    if (exObj->getID() == 4) {
+        CCImage *poppoB = new CCImage;
+        poppoB->initWithImageFile("Poppo5B.png");
+        CCTexture2D *poppoTexture = new CCTexture2D;
+        poppoTexture->initWithImage(poppoB);
+        CCSprite *poppoSprite = exObj->getSprite();
+        poppoSprite->setTexture(poppoTexture);
+    }
+    if (exObj->getID() == 5) {
+        CCImage *poppoB = new CCImage;
+        poppoB->initWithImageFile("Poppo6B.png");
+        CCTexture2D *poppoTexture = new CCTexture2D;
+        poppoTexture->initWithImage(poppoB);
+        CCSprite *poppoSprite = exObj->getSprite();
+        poppoSprite->setTexture(poppoTexture);
+    }
+    if (exObj->getID() == 6) {
+        CCImage *poppoB = new CCImage;
+        poppoB->initWithImageFile("Poppo7B.png");
+        CCTexture2D *poppoTexture = new CCTexture2D;
+        poppoTexture->initWithImage(poppoB);
+        CCSprite *poppoSprite = exObj->getSprite();
+        poppoSprite->setTexture(poppoTexture);
+    }
+}
+

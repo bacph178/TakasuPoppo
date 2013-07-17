@@ -13,6 +13,7 @@ void TakasuPoppo::addTileMap () {
     map = CCTMXTiledMap::create("90x90TileMap.tmx");
     this->addChild(map, -1, -1);
     layer = map->layerNamed("Layer");
+    layer->setPosition(0, 90);
     CCLog("Layer width %f and height %f", layer->getContentSize().width, layer->getContentSize().height);
     TakasuPoppo::createFixture();
     
@@ -36,13 +37,13 @@ void TakasuPoppo::createFixture() {
             unsigned int m_gid = layer->tileGIDAt(ccp(x, y));
             
             char tileName[7][20];
-            strcpy(tileName[0], "Candy");
-            strcpy(tileName[1], "Candy2");
-            strcpy(tileName[2], "Candy3");
-            strcpy(tileName[3], "Candy4");
-            strcpy(tileName[4], "Candy5");
-            strcpy(tileName[5], "Candy6");
-            strcpy(tileName[6], "Candy7");
+            strcpy(tileName[0], "Poppo1A");
+            strcpy(tileName[1], "Poppo2A");
+            strcpy(tileName[2], "Poppo3A");
+            strcpy(tileName[3], "Poppo4A");
+            strcpy(tileName[4], "Poppo5A");
+            strcpy(tileName[5], "Poppo6A");
+            strcpy(tileName[6], "Poppo7A");
             
             int randomTile = rand() % 7;
             char spriteName[100];
@@ -53,7 +54,7 @@ void TakasuPoppo::createFixture() {
             
             CCSprite *randomTileSprite = CCSprite::create(spriteName);
             CCPoint tilePosition = ccp(tileSprite->getPositionX() + tileSprite->getContentSize().width/2,
-                                       tileSprite->getPositionY() + tileSprite->getContentSize().height/2);
+                                       tileSprite->getPositionY() + 90 + tileSprite->getContentSize().height/2);
             CCPoint tileCoordination = TakasuPoppo::tileCoorForPosition(tilePosition);
             randomTileSprite->setPosition(ccp(tilePosition.x, tilePosition.y + 10));
             CCObject *object = colorArray->objectAtIndex(m_gid - 1);
@@ -67,7 +68,7 @@ void TakasuPoppo::createFixture() {
 
 CCPoint TakasuPoppo::tileCoorForPosition(CCPoint position) {
     float x = position.x / map->getTileSize().width;
-    float y = ((winSize.height - (winSize.height - layer->getContentSize().height)) - position.y) /
+    float y = ((winSize.height - (winSize.height - layer->getContentSize().height)) - position.y + 90) /
                (map->getTileSize().height);
     CCPoint transPos = ccp(floor(x), floor(y));
     return transPos;
@@ -86,13 +87,13 @@ void TakasuPoppo::checkEmpty() {
 
 void TakasuPoppo::generateRandomBlock(TPObjectExtension *exObj) {
     char tileName[7][20];
-    strcpy(tileName[0], "Candy");
-    strcpy(tileName[1], "Candy2");
-    strcpy(tileName[2], "Candy3");
-    strcpy(tileName[3], "Candy4");
-    strcpy(tileName[4], "Candy5");
-    strcpy(tileName[5], "Candy6");
-    strcpy(tileName[6], "Candy7");
+    strcpy(tileName[0], "Poppo1A");
+    strcpy(tileName[1], "Poppo2A");
+    strcpy(tileName[2], "Poppo3A");
+    strcpy(tileName[3], "Poppo4A");
+    strcpy(tileName[4], "Poppo5A");
+    strcpy(tileName[5], "Poppo6A");
+    strcpy(tileName[6], "Poppo7A");
     int randomTile = rand() % 7;
     char spriteName[100];
     
@@ -100,7 +101,7 @@ void TakasuPoppo::generateRandomBlock(TPObjectExtension *exObj) {
     
     CCSprite *randomTileSprite = CCSprite::create(spriteName);
     randomTileSprite->setPosition(ccp(exObj->getPosition().x, exObj->getPosition().y + 70));
-    randomTileSprite->runAction(CCMoveTo::create(0.3, exObj->getPosition()));
+    randomTileSprite->runAction(CCMoveTo::create(0.1, exObj->getPosition()));
     
     exObj->setSprite(randomTileSprite);
     exObj->setID(randomTile);
@@ -110,9 +111,9 @@ void TakasuPoppo::generateRandomBlock(TPObjectExtension *exObj) {
 
 void TakasuPoppo::generateBlock(TPObjectExtension *exObj1, int type) {
     if (type == 0) {
-        CCSprite *randomTileSprite = CCSprite::create("Candy.png");
+        CCSprite *randomTileSprite = CCSprite::create("Poppo1A.png");
         randomTileSprite->setPosition(ccp(exObj1->getPosition().x, exObj1->getPosition().y + 70));
-        randomTileSprite->runAction(CCMoveTo::create(0.3, exObj1->getPosition()));
+        randomTileSprite->runAction(CCMoveTo::create(0.1, exObj1->getPosition()));
         exObj1->setSprite(randomTileSprite);
         exObj1->setID(0);
         exObj1->setControlTrigger(!exObj1->getControlTrigger());
@@ -120,9 +121,9 @@ void TakasuPoppo::generateBlock(TPObjectExtension *exObj1, int type) {
         return;
     }
     if (type == 1) {
-        CCSprite *randomTileSprite = CCSprite::create("Candy2.png");
+        CCSprite *randomTileSprite = CCSprite::create("Poppo2A.png");
         randomTileSprite->setPosition(ccp(exObj1->getPosition().x, exObj1->getPosition().y + 70));
-        randomTileSprite->runAction(CCMoveTo::create(0.3, exObj1->getPosition()));
+        randomTileSprite->runAction(CCMoveTo::create(0.1, exObj1->getPosition()));
         exObj1->setSprite(randomTileSprite);
         exObj1->setID(1);
         exObj1->setControlTrigger(!exObj1->getControlTrigger());
@@ -130,9 +131,9 @@ void TakasuPoppo::generateBlock(TPObjectExtension *exObj1, int type) {
         return;
     }
     if (type == 2) {
-        CCSprite *randomTileSprite = CCSprite::create("Candy3.png");
+        CCSprite *randomTileSprite = CCSprite::create("Poppo3A.png");
         randomTileSprite->setPosition(ccp(exObj1->getPosition().x, exObj1->getPosition().y + 70));
-        randomTileSprite->runAction(CCMoveTo::create(0.3, exObj1->getPosition()));
+        randomTileSprite->runAction(CCMoveTo::create(0.1, exObj1->getPosition()));
         exObj1->setSprite(randomTileSprite);
         exObj1->setID(2);
         exObj1->setControlTrigger(!exObj1->getControlTrigger());
@@ -140,18 +141,18 @@ void TakasuPoppo::generateBlock(TPObjectExtension *exObj1, int type) {
         return;
     }
     if (type == 3) {
-        CCSprite *randomTileSprite = CCSprite::create("Candy4.png");
+        CCSprite *randomTileSprite = CCSprite::create("Poppo4A.png");
         randomTileSprite->setPosition(ccp(exObj1->getPosition().x, exObj1->getPosition().y + 70));
-        randomTileSprite->runAction(CCMoveTo::create(0.3, exObj1->getPosition()));
+        randomTileSprite->runAction(CCMoveTo::create(0.1, exObj1->getPosition()));
         exObj1->setSprite(randomTileSprite);
         exObj1->setID(3);
         this->addChild(randomTileSprite, 3, 300 + exObj1->getGid());
         return;
     }
     if (type == 4) {
-        CCSprite *randomTileSprite = CCSprite::create("Candy5.png");
+        CCSprite *randomTileSprite = CCSprite::create("Poppo5A.png");
         randomTileSprite->setPosition(ccp(exObj1->getPosition().x, exObj1->getPosition().y + 70));
-        randomTileSprite->runAction(CCMoveTo::create(0.3, exObj1->getPosition()));
+        randomTileSprite->runAction(CCMoveTo::create(0.1, exObj1->getPosition()));
         exObj1->setSprite(randomTileSprite);
         exObj1->setID(4);
         exObj1->setControlTrigger(!exObj1->getControlTrigger());
@@ -159,9 +160,9 @@ void TakasuPoppo::generateBlock(TPObjectExtension *exObj1, int type) {
         return;
     }
     if (type == 5) {
-        CCSprite *randomTileSprite = CCSprite::create("Candy6.png");
+        CCSprite *randomTileSprite = CCSprite::create("Poppo6A.png");
         randomTileSprite->setPosition(ccp(exObj1->getPosition().x, exObj1->getPosition().y + 70));
-        randomTileSprite->runAction(CCMoveTo::create(0.3, exObj1->getPosition()));
+        randomTileSprite->runAction(CCMoveTo::create(0.1, exObj1->getPosition()));
         exObj1->setSprite(randomTileSprite);
         exObj1->setID(5);
         exObj1->setControlTrigger(!exObj1->getControlTrigger());
@@ -169,9 +170,9 @@ void TakasuPoppo::generateBlock(TPObjectExtension *exObj1, int type) {
         return;
     }
     if (type == 6) {
-        CCSprite *randomTileSprite = CCSprite::create("Candy7.png");
+        CCSprite *randomTileSprite = CCSprite::create("Poppo7A.png");
         randomTileSprite->setPosition(ccp(exObj1->getPosition().x, exObj1->getPosition().y + 70));
-        randomTileSprite->runAction(CCMoveTo::create(0.3, exObj1->getPosition()));
+        randomTileSprite->runAction(CCMoveTo::create(0.1, exObj1->getPosition()));
         exObj1->setSprite(randomTileSprite);
         exObj1->setID(6);
         exObj1->setControlTrigger(!exObj1->getControlTrigger());

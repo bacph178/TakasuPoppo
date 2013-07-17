@@ -6,7 +6,8 @@
 #include "SimpleAudioEngine.h"
 #include "TPObjectExtension.h"
 #include "TPBlockSet.h"
-//#include "Touches.h"
+#include "CCGestureRecognizer.h"
+
 using namespace cocos2d;
 using namespace CocosDenshion;
 using namespace std;
@@ -39,6 +40,12 @@ bool TakasuPoppo::init() {
     debugTilesArray = new CCArray;
     TakasuPoppo::setupDebugButton();
     //===============================================================
+    
+    CCSprite *background = CCSprite::create("NewBackground.png");
+    background->setPosition(ccp(winSize.width/2, winSize.height/2));
+    this->addChild(background, -3, -1);
+    
+    TakasuPoppo::swipeSetup();
     
     this->setTouchEnabled(true);
     
@@ -105,11 +112,10 @@ void TakasuPoppo::fixedUpdate(float time) {
     TakasuPoppo::matchList();
     if (toDestroyArray->count() != 0 && inTheMove == false && inTheFall == false) {
         this->unschedule(schedule_selector(TakasuPoppo::smartGeneration));
-        this->runAction(CCSequence::create(CCDelayTime::create(0.4),
+        this->runAction(CCSequence::create(CCDelayTime::create(0.1),
                                            CCCallFunc::create(this, callfunc_selector(TakasuPoppo::cleanBlocks)),
-                                           CCDelayTime::create(0.1),
+                                           CCDelayTime::create(0.3),
                                            CCCallFunc::create(this, callfunc_selector(TakasuPoppo::afterClean)),
-                                           CCDelayTime::create(0.1),
                                            CCCallFunc::create(this, callfunc_selector(TakasuPoppo::scheduleGenerate)),
                                            NULL));
         this->schedule(schedule_selector(TakasuPoppo::fallingBoolSwitch), 0.1);
@@ -135,7 +141,7 @@ void TakasuPoppo::movingBoolSwitch(float dt) {
 }
 
 void TakasuPoppo::scheduleGenerate() {
-    this->schedule(schedule_selector(TakasuPoppo::smartGeneration), 0.1);
+    this->schedule(schedule_selector(TakasuPoppo::smartGeneration), 0.3);
 }
 
 void TakasuPoppo::hintGeneration() {
@@ -146,11 +152,12 @@ void TakasuPoppo::hintGeneration() {
         int hintRandom = rand() %hintIndex;
         
         if (hintCount > 0) {
-            CCLog("Hint count: %i Index: %i", hintCount, hintIndex);
-            TPObjectExtension *exObj = dynamic_cast<TPObjectExtension*>(hintArray->objectAtIndex(hintRandom));
+            CCLog("Hint count: %i Index: %i", hintCount, hintRandom);
+            TPObjectExtension *exObj = dynamic_cast<TPObjectExtension*>(hintArray->objectAtIndex(0));
             CCLog("Object on coor X%iY%i ID %i has a chance for combo.", (int)exObj->getCoordination().x, (int)exObj->getCoordination().y, exObj->getID());
             CCRenderTexture *tex = TakasuPoppo::outlineEffect(exObj->getSprite(), 10, ccc3(255, 255, 255), 90);
             this->addChild(tex, exObj->getSprite()->getZOrder() - 1, 778);
         }
     }
 }
+

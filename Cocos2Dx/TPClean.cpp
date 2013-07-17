@@ -10,63 +10,76 @@
 #include "TPBlockSet.h"
 void TakasuPoppo::cleanBlocks() {
     CCObject *object;
-    int pair0 = 0, pair1 = 0, pair2 = 0,
-        pair3 = 0, pair4 = 0, pair5 = 0, pair6 = 0;
     if (toDestroyArray->count() != 0) {
         CCARRAY_FOREACH(toDestroyArray, object) {
-            
+            hintCounter = 3;
             TPBlockSet *blockSet = dynamic_cast<TPBlockSet*>(object);
             
             if (blockSet->getEx1()->getSprite() != NULL) {
                 CCSprite *ex1 = blockSet->getEx1()->getSprite();
-                ex1->runAction(CCSequence::create(CCDelayTime::create(0.2),
+                ex1->runAction(CCSequence::create(
+                                                  CCCallFuncND::create(this, callfuncND_selector(TakasuPoppo::spriteChange),
+                                                                       (void*)blockSet->getEx1()),
+                                                  CCCallFuncND::create(this, callfuncND_selector(TakasuPoppo::changeID),
+                                                                       (void*)blockSet->getEx1()),
+                                                  CCDelayTime::create(0.3),
+
+                                                  
                                                   CCRemoveSelf::create(), NULL));
-//                TakasuPoppo::popParticles(blockSet->getEx1()->getPosition());
-                blockSet->getEx1()->setID(7);
+                    
             }
             
             if (blockSet->getEx2()->getSprite() != NULL) {
                 CCSprite *ex2 = blockSet->getEx2()->getSprite();
-                ex2->runAction(CCSequence::create(CCDelayTime::create(0.2),
+                ex2->runAction(CCSequence::create(
+                                                  CCCallFuncND::create(this, callfuncND_selector(TakasuPoppo::spriteChange),
+                                                                       (void*)blockSet->getEx2()),
+                                                  CCCallFuncND::create(this, callfuncND_selector(TakasuPoppo::changeID),
+                                                                       (void*)blockSet->getEx2()),
+                                                  CCDelayTime::create(0.3),
+
                                                   CCRemoveSelf::create(), NULL));
-                
-//                TakasuPoppo::popParticles(blockSet->getEx2()->getPosition());
-                blockSet->getEx2()->setID(7);
             }
             
             if (blockSet->getEx3()->getSprite() != NULL) {
                 CCSprite *ex3 = blockSet->getEx3()->getSprite();
-                ex3->runAction(CCSequence::create(CCDelayTime::create(0.2),
+                ex3->runAction(CCSequence::create(
+                                                  CCCallFuncND::create(this, callfuncND_selector(TakasuPoppo::spriteChange),
+                                                                       (void*)blockSet->getEx3()),
+                                                  CCCallFuncND::create(this, callfuncND_selector(TakasuPoppo::changeID),
+                                                                       (void*)blockSet->getEx3()),
+                                                  CCDelayTime::create(0.3),
+
                                                   CCRemoveSelf::create(), NULL));
-//                TakasuPoppo::popParticles(blockSet->getEx3()->getPosition());
-                blockSet->getEx3()->setID(7);
             }
             
             if (blockSet->getEx4() && blockSet->getEx4() != NULL &&
                 blockSet->getEx4()->getSprite() != NULL) {
                 CCSprite *ex4 = blockSet->getEx4()->getSprite();
-                ex4->runAction(CCSequence::create(CCDelayTime::create(0.1),
+        
+                ex4->runAction(CCSequence::create(
+                                                  CCCallFuncND::create(this, callfuncND_selector(TakasuPoppo::spriteChange),
+                                                                       (void*)blockSet->getEx4()),
+                                                  CCCallFuncND::create(this, callfuncND_selector(TakasuPoppo::changeID),
+                                                                       (void*)blockSet->getEx4()),
+                                                  CCDelayTime::create(0.3),
+
                                                   CCRemoveSelf::create(), NULL));
-//                TakasuPoppo::popParticles(blockSet->getEx4()->getPosition());
-                blockSet->getEx4()->setID(7);
             }
             if (blockSet->getEx5() && blockSet->getEx5() != NULL &&
                 blockSet->getEx5()->getSprite() != NULL) {
                 CCSprite *ex5 = blockSet->getEx5()->getSprite();
-                ex5->runAction(CCSequence::create(CCDelayTime::create(0.1),
+                ex5->runAction(CCSequence::create(
+                                                  CCCallFuncND::create(this, callfuncND_selector(TakasuPoppo::spriteChange),
+                                                                       (void*)blockSet->getEx5()),
+                                                  CCCallFuncND::create(this, callfuncND_selector(TakasuPoppo::changeID),
+                                                                       (void*)blockSet->getEx5()),
+                                                  CCDelayTime::create(0.3),
+
                                                   CCRemoveSelf::create(), NULL));
-//                TakasuPoppo::popParticles(blockSet->getEx5()->getPosition());
-                blockSet->getEx5()->setID(7);
             }
         }
     }
-    CCLog("Pair 0 sum: %i", pair0);
-    CCLog("Pair 1 sum: %i", pair1);
-    CCLog("Pair 2 sum: %i", pair2);
-    CCLog("Pair 3 sum: %i", pair3);
-    CCLog("Pair 4 sum: %i", pair4);
-    CCLog("Pair 5 sum: %i", pair5);
-    CCLog("Pair 6 sum: %i", pair6);
     toDestroyArray->removeAllObjects();
 }
 
@@ -94,5 +107,10 @@ void TakasuPoppo::afterClean() {
             }
         }
     }    
+}
+
+void TakasuPoppo::changeID(CCNode *sender, void* data) {
+    TPObjectExtension *exObj = (TPObjectExtension*)data;
+    exObj->setID(7);
 }
 

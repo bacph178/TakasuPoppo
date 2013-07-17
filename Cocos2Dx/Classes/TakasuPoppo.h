@@ -7,6 +7,9 @@
 
 #include "cocos2d.h"
 #include "TPObjectExtension.h"
+#include "CCGestureRecognizer.h"
+#include "CCSwipeGestureRecognizer.h"
+
 USING_NS_CC;
 class TakasuPoppo : public cocos2d::CCLayer {
 private:
@@ -57,14 +60,13 @@ private:
     
     bool hintDisplaying;            //Indicating that a hint is currently displayed
     
-    int count0, count1, count2,     //Count of ti
+    int count0, count1, count2,     //Count of blocks of same type
     count3, count4, count5, count6;
     
     bool gridOn = false;
     
     
 public:
-    
     
     #pragma mark Takasu Poppo 
     static cocos2d::CCScene* scene();
@@ -83,7 +85,6 @@ public:
     void scheduleGenerate();
     //Hint display
     void hintGeneration();
-    
     
     #pragma mark Touch
     virtual void ccTouchesBegan(CCSet *touches, CCEvent *event);
@@ -148,8 +149,15 @@ public:
     //Move the blocks on the top of the destroyed blocks down
     void afterClean();
     
+    void changeID(CCNode *sender, void* data);
+    
     
     #pragma mark Swiped
+    //New swipe recognizer
+    void swipeSetup();
+    
+    //New swpie action
+    void didSwipe(int direction);
     //If swipe is recognizes, run into one of the followings
     void swipedUp(TPObjectExtension *exObj);
     void swipedDown(TPObjectExtension *exObj);
@@ -178,11 +186,13 @@ public:
     //Spark particles for hint
     void hintParticles(TPObjectExtension *exObj);
     //Shine particles, gives a shine for a set of blocks
-    void comboPartiles(TPObjectExtension *exObj);
+    void comboParticles(TPObjectExtension *exObj);
     //Rends an outline effect on a sprite
     CCRenderTexture *outlineEffect(CCSprite *label, int size, ccColor3B color, GLubyte opacity);
+    //Change sprite
+    void spriteChange(CCNode *sender, void* data);
     
-    
+    void popAnimation(CCNode *sender, void* data);
     #pragma mark Debug
     void setupDebugButton();
     void switchGrid();

@@ -7,7 +7,23 @@
 //
 
 #include "TakasuPoppo.h"
+
 #pragma mark Swipe Actions
+
+void TakasuPoppo::swipeSetup() {
+    CCSwipeGestureRecognizer *swipe = CCSwipeGestureRecognizer::create();
+    swipe->setTarget(this, callfuncO_selector(TakasuPoppo::didSwipe));
+    
+    swipe->setDirection(kSwipeGestureRecognizerDirectionDown | kSwipeGestureRecognizerDirectionLeft |
+                        kSwipeGestureRecognizerDirectionRight | kSwipeGestureRecognizerDirectionUp);
+    swipe->setCancelsTouchesInView(true);
+    this->addChild(swipe);
+}
+
+void TakasuPoppo::didSwipe(int direction) {
+    CCLOG("Did recognize %i", direction);
+
+}
 
 void TakasuPoppo::swipedRight(TPObjectExtension *exObj) {
     unsigned int gid = exObj->getGid();
